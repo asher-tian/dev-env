@@ -9,7 +9,8 @@ $packages = @(
     @{ Id = "jdx.mise"; Name = "mise" },
     @{ Id = "astral-sh.uv"; Name = "uv" },
     @{ Id = "Microsoft.VisualStudioCode"; Name = "Visual Studio Code" },
-    @{ Id = "Docker.DockerDesktop"; Name = "Docker Desktop" }
+    @{ Id = "Docker.DockerDesktop"; Name = "Docker Desktop" },
+    @{ Id = "Microsoft.WindowsTerminal"; Name = "Windows Terminal" }
 )
 
 foreach ($package in $packages) {

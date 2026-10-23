@@ -69,7 +69,25 @@ claude --version
 
 首次运行 `codex` 和 `claude` 时按提示自行登录。配置和项目规则见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
 
-## 5. 创建项目
+## 5. 安装字体
+
+统一使用 Maple Mono NF CN，兼顾中文字符与终端图标。详见[字体配置指南](../tools/fonts.md)。
+
+macOS：
+
+```bash
+bash tools/install-font-macos.sh
+```
+
+Windows（需先安装 [Scoop](https://scoop.sh/)）：
+
+```powershell
+.\tools\install-font-windows.ps1
+```
+
+字体安装完成后，在 VS Code 用户设置中配置编辑器与集成终端字体。Settings Sync 不会安装字体本身。
+
+## 6. 创建项目
 
 项目模板单独维护在 [dev-templates](https://github.com/asher-tian/dev-templates)。
 
@@ -80,7 +98,7 @@ copier copy ./dev-templates/python-cli ./my-cli
 
 Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
 
-## 6. 开发原则
+## 7. 开发原则
 
 - 项目语言版本由项目配置决定，不在初始化脚本里安装所有 Python、Node.js、Go 版本。
 - 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。

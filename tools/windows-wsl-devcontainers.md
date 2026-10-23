@@ -18,7 +18,7 @@ Windows
             └── 项目工具链：Python / Node.js / Go / CLI agents（按项目需要）
 ```
 
-推荐把源码放在 WSL2 的 Linux 文件系统中，例如 `~/src/myapp`，不要把频繁编译的项目长期放在 `/mnt/c/... `。通过 VS Code 的 WSL / Dev Containers 扩展打开项目，不需要手工把整个目录复制进容器。
+所有代码仓库统一放在 `~/code` 下。Windows + WSL2 开发时，这里指 **WSL2 Ubuntu 内部的 `~/code`**，例如 `~/code/myapp`。不要把频繁编译的 Linux 项目长期放在 `/mnt/c/...`。通过 VS Code 的 WSL / Dev Containers 扩展打开项目，不需要手工把目录复制进容器。
 
 ## 1. Windows 宿主机
 
@@ -53,8 +53,8 @@ wsl -l -v
 ```bash
 sudo apt update
 sudo apt install -y git curl ca-certificates
-mkdir -p ~/src
-cd ~/src
+mkdir -p ~/code
+cd ~/code
 ```
 
 安装完成后，建议在 WSL 终端中运行仓库的 Linux 初始化流程。该流程目前以 macOS 为主要脚本目标，因此 **不要在 WSL 中照搬 macOS 的 Homebrew 脚本**；先按官方说明安装 mise、uv，以及需要的 CLI 工具：
@@ -73,7 +73,7 @@ VS Code 桌面窗口会连接到 WSL。首次按提示安装 **WSL** 扩展。�
 
 ## 3. Git 和 SSH：只配置你实际使用的那一层
 
-若项目位于 WSL 的 `~/src` 中，并从 WSL / Dev Container 执行 Git，推荐把 Git 身份和 SSH 认证配置在 WSL 用户环境中。Windows PowerShell 的 `C:\Users\...\.ssh` 与 WSL 的 `~/.ssh` 不是同一个目录。
+若项目位于 WSL 的 `~/code` 中，并从 WSL / Dev Container 执行 Git，推荐把 Git 身份和 SSH 认证配置在 WSL 用户环境中。Windows PowerShell 的 `C:\Users\...\.ssh` 与 WSL 的 `~/.ssh` 不是同一个目录。
 
 在 WSL 运行：
 
@@ -89,7 +89,7 @@ ssh -T git@github.com
 
 ## 4. Dev Container 的代码和依赖
 
-项目需要提供 `.devcontainer/devcontainer.json`，通常搭配 Dockerfile 或 Compose。VS Code 执行 **Dev Containers: Reopen in Container** 后会按配置构建/启动容器，并将工作区挂载进去；工作区源文件仍保存在 WSL 文件系统里，不是每次创建容器都复制一份代码。
+项目需要提供 `.devcontainer/devcontainer.json`，通常搭配 Dockerfile 或 Compose。VS Code 执行 **Dev Containers: Reopen in Container** 后会按配置构建/启动容器，并将工作区挂载进去；工作区源文件仍保存在 WSL 的 `~/code/project-name` 中，不是每次创建容器都复制一份代码。
 
 - 代码、Git 历史：WSL 的项目目录（通过工作区挂载进入容器）。
 - 编译器、语言运行时、项目依赖：容器内。
@@ -129,9 +129,9 @@ Codex / Claude Code 的安装和认证方式可能随版本变化，应以各自
 - **容器里看不到代码**：确认 VS Code 左下角显示的是正确的 WSL / Dev Container 远程目标，检查工作区是否打开了预期目录。
 - **容器里找不到 GitHub SSH key**：确认 Git 操作实际在哪一层执行；不要假设 Windows、WSL 和容器共享 `~/.ssh`。
 - **Docker 命令连接失败**：先在 Windows 启动 Docker Desktop，再检查 WSL Integration；不要立刻安装第二套 Docker daemon。
-- **文件操作慢**：把项目移到 WSL 的 `~/src`，避免在 `/mnt/c` 下频繁构建 Linux 项目。
+- **文件操作慢**：把项目放在 WSL 的 `~/code`，避免在 `/mnt/c` 下频繁构建 Linux 项目。
 - **容器重建后依赖消失**：把依赖安装步骤写入项目的 Dev Container 配置或锁文件，不要只在容器里手工安装。
-- **微信小程序开发**：微信开发者工具保留在 Windows 宿主机。若它需要读取项目源码，可从 Windows 侧通过 `\\wsl$\Ubuntu\home\<用户名>\src\...` 访问，但文件监听/性能行为需要在实际项目中验证；不要为了它默认把所有代码搬到 `/mnt/c`。
+- **微信小程序开发**：微信开发者工具保留在 Windows 宿主机。若它需要读取项目源码，可从 Windows 侧通过 `\\wsl$\Ubuntu\home\<用户名>\code\...` 访问，但文件监听/性能行为需要在实际项目中验证；不要为了它默认把所有代码搬到 `/mnt/c`。
 
 ## 官方资料
 

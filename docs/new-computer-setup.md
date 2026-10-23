@@ -1,15 +1,30 @@
 # 新电脑初始化
 
-目标：用尽量少的手工操作，准备好 Git、VS Code、Docker、mise 和 uv；项目运行时再按项目配置安装语言版本与依赖。
+目标：用尽量少的手工操作，准备好 Git、VS Code、Docker、mise 和 uv；项目运行时再按项目配置安装语言版本与依赖。所有项目仓库统一放在 `~/code` 下。
 
 ## 1. 获取仓库
 
-先安装 Git，或先从 GitHub 下载仓库 ZIP。已有 Git 时执行：
+如果已安装 Git，按系统打开终端并执行。
+
+macOS / Linux / WSL2：
 
 ```bash
+mkdir -p ~/code
+cd ~/code
 git clone https://github.com/asher-tian/dev-env.git
 cd dev-env
 ```
+
+Windows PowerShell 原生环境：
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\code" | Out-Null
+Set-Location "$HOME\code"
+git clone https://github.com/asher-tian/dev-env.git
+Set-Location dev-env
+```
+
+如果还没有 Git，可以先从 GitHub 下载仓库 ZIP 并解压到对应的 code 目录，再按后续步骤安装工具。
 
 ## 2. 安装基础工具
 
@@ -109,12 +124,15 @@ Windows：
 
 ## 7. 创建项目
 
-项目模板单独维护在 [dev-templates](https://github.com/asher-tian/dev-templates)。
+模板仓库也放在 `~/code` 下。从 `~/code` 执行：
 
 ```bash
+cd ~/code
 git clone https://github.com/asher-tian/dev-templates.git
 copier copy ./dev-templates/python-cli ./my-cli
 ```
+
+如果 `~/code/dev-templates` 已经存在，跳过 clone，直接执行 Copier 命令。Windows PowerShell 原生环境使用 `$HOME\code` 下的目录；WSL2 开发使用 WSL2 内部的 `~/code`。
 
 Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
 

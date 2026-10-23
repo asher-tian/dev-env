@@ -11,7 +11,7 @@ git clone https://github.com/asher-tian/dev-env.git
 cd dev-env
 ```
 
-## 2. 运行初始化脚本
+## 2. 安装基础工具
 
 ### macOS
 
@@ -30,27 +30,48 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\bootstrap\windows\setup.ps1
 ```
 
-## 3. 自动配置 Git
+## 3. 配置 Git
 
-### macOS
+macOS：
 
 ```bash
 bash git-config/setup-macos.sh
 ```
 
-### Windows（PowerShell）
+Windows：
 
 ```powershell
 .\git-config\setup-windows.ps1
 ```
 
-脚本会设置 Git 提交身份、生成 SSH 认证密钥，并询问是否启用 GitHub Verified 签名提交。按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。
+按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。详细说明见 [Git 配置指南](../git-config/README.md)。
 
-详细说明：[Git 配置指南](../git-config/README.md)。
+## 4. 安装 AI Coding 工具
 
-## 4. 使用项目模板
+macOS：
 
-`dev-env` 负责电脑和通用工具；项目模板单独维护在 [dev-templates](https://github.com/asher-tian/dev-templates)。
+```bash
+bash tools/setup-ai-coding-macos.sh
+```
+
+Windows：
+
+```powershell
+.\tools\setup-ai-coding-windows.ps1
+```
+
+安装完成后，重新打开终端并检查：
+
+```bash
+codex --version
+claude --version
+```
+
+首次运行 `codex` 和 `claude` 时按提示自行登录。配置和项目规则见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
+
+## 5. 创建项目
+
+项目模板单独维护在 [dev-templates](https://github.com/asher-tian/dev-templates)。
 
 ```bash
 git clone https://github.com/asher-tian/dev-templates.git
@@ -59,9 +80,9 @@ copier copy ./dev-templates/python-cli ./my-cli
 
 Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
 
-## 5. 开发原则
+## 6. 开发原则
 
 - 项目语言版本由项目配置决定，不在初始化脚本里安装所有 Python、Node.js、Go 版本。
 - 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。
 - Redis、数据库等依赖由项目的 Docker Compose 管理，除非确实需要共享服务。
-- Codex、Claude Code 和微信开发者工具按实际使用需求单独安装并登录。
+- 微信开发者工具按需安装；它需要宿主机 GUI，不放进开发容器。

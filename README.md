@@ -35,3 +35,12 @@
 ## 说明
 
 初始化脚本不会自动登录 GitHub、Gitee、Codex 或 Claude Code。Git 配置脚本只在本机生成密钥、设置 Git，并显示需要手动添加到平台的公钥。
+
+## 环境验收
+
+新电脑安装完成后运行只读验收脚本：
+
+- macOS：`bash bootstrap/macos/check.sh`
+- Windows PowerShell：`.\bootstrap\windows\check.ps1`
+
+检查项和排查说明参见 [开发环境验收指南](./docs/validation.md)。

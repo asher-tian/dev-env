@@ -15,7 +15,7 @@ cd dev-env
 
 ### macOS
 
-先安装 [Homebrew](https://brew.sh/)，然后在终端执行：
+先安装 [Homebrew](https://brew.sh/)，然后执行：
 
 ```bash
 bash bootstrap/macos/setup.sh
@@ -30,17 +30,23 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\bootstrap\windows\setup.ps1
 ```
 
-脚本安装 Git、mise、uv、VS Code 和 Docker Desktop，并配置 mise 的 Shell 初始化。脚本可重复运行；如果某个软件已安装，winget/Homebrew 会提示当前状态。
+## 3. 自动配置 Git
 
-## 3. 配置 Git 身份与 SSH
+### macOS
 
-按顺序完成：
+```bash
+bash git-config/setup-macos.sh
+```
 
-1. [GitHub / Gitee SSH](../git-config/github-ssh.md)
-2. [GitHub Verified 签名提交（可选）](../git-config/signed-commits.md)
-3. [GitHub + Gitee 双平台同步（需要时）](../git-config/github-gitee-sync.md)
+### Windows（PowerShell）
 
-不要把 SSH 私钥提交到仓库，也不要将私钥复制进开发容器镜像。
+```powershell
+.\git-config\setup-windows.ps1
+```
+
+脚本会设置 Git 提交身份、生成 SSH 认证密钥，并询问是否启用 GitHub Verified 签名提交。按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。
+
+详细说明：[Git 配置指南](../git-config/README.md)。
 
 ## 4. 使用项目模板
 

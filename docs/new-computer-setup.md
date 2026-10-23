@@ -69,11 +69,9 @@ claude --version
 
 首次运行 `codex` 和 `claude` 时按提示自行登录。配置和项目规则见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
 
-## 5. 安装字体
+## 5. 安装字体并配置 VS Code / 终端
 
-统一使用 Maple Mono NF CN，兼顾中文字符与终端图标。详见[字体配置指南](../tools/fonts.md)。
-
-macOS：
+统一使用 Maple Mono NF CN。macOS：
 
 ```bash
 bash tools/install-font-macos.sh
@@ -85,7 +83,9 @@ Windows（需先安装 [Scoop](https://scoop.sh/)）：
 .\tools\install-font-windows.ps1
 ```
 
-字体安装完成后，在 VS Code 用户设置中配置编辑器与集成终端字体。Settings Sync 不会安装字体本身。
+然后按[VS Code 与终端配置指南](../tools/vscode-terminal.md)安装扩展、选择 Catppuccin Mocha 主题并配置字体。
+
+macOS 基础脚本会安装 iTerm2；Windows 基础脚本会安装 Windows Terminal。VS Code 设置可使用内置 Settings Sync 同步到其他电脑。
 
 ## 6. 创建项目
 

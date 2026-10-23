@@ -8,7 +8,8 @@
 2. macOS 运行 `bash bootstrap/macos/setup.sh`；Windows 在 PowerShell 运行 `.\bootstrap\windows\setup.ps1`。
 3. 运行对应的 [Git 配置脚本](./git-config/README.md)，设置提交身份和 SSH。
 4. 运行 [AI Coding 工具安装脚本](./tools/ai-coding.md)，安装 Codex 和 Claude Code。
-5. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
+5. 按[字体配置指南](./tools/fonts.md)安装 Maple Mono NF CN，并配置 VS Code / 终端。
+6. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
 
 ## 目录
 
@@ -17,10 +18,13 @@
 - [mise](./tools/mise.md)：项目级运行时版本管理。
 - [Docker 与 Dev Containers](./tools/docker-devcontainers.md)：容器开发与服务依赖的配置约定。
 - [Codex 与 Claude Code](./tools/ai-coding.md)：安装、登录、项目规则与配置边界。
+- [字体与编辑器显示](./tools/fonts.md)：Maple Mono NF CN、VS Code 和终端字体设置。
 - `bootstrap/macos/setup.sh`：macOS 基础工具初始化脚本。
 - `bootstrap/windows/setup.ps1`：Windows 基础工具初始化脚本。
 - `tools/setup-ai-coding-macos.sh`：macOS AI Coding 工具安装脚本。
 - `tools/setup-ai-coding-windows.ps1`：Windows AI Coding 工具安装脚本。
+- `tools/install-font-macos.sh`：macOS 字体安装脚本。
+- `tools/install-font-windows.ps1`：Windows 字体安装脚本。
 
 ## 设计原则
 

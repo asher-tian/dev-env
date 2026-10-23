@@ -1,13 +1,32 @@
 # dev-env
 
-个人开发环境配置与使用说明，集中维护跨项目复用的开发工具配置。
+新电脑初始化与个人开发环境配置。目标是：**操作简单、优先脚本化、项目环境可复现**。
 
-## 配置指南
+## 新电脑快速开始
 
-- [Git 配置](./git-config/README.md)：GitHub / Gitee SSH 连接、GitHub Verified 签名提交、双平台同步。
+1. 打开[新电脑初始化指南](./docs/new-computer-setup.md)。
+2. macOS 运行 `bash bootstrap/macos/setup.sh`；Windows 在 PowerShell 运行 `.\bootstrap\windows\setup.ps1`。
+3. 按[Git 配置指南](./git-config/README.md)设置提交身份和 SSH。
+4. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
 
-## 原则
+## 目录
 
-- 优先提供简洁、可复制执行的命令。
-- 多台开发机器分别管理自己的 SSH 私钥；只上传公钥。
-- 不将访问令牌、私钥、密码或生产环境密钥提交到仓库。
+- [新电脑初始化](./docs/new-computer-setup.md)：从基础软件安装到开始开发。
+- [Git 配置](./git-config/README.md)：GitHub / Gitee SSH、GitHub Verified 签名提交、双平台同步。
+- [mise](./tools/mise.md)：项目级运行时版本管理。
+- [Docker 与 Dev Containers](./tools/docker-devcontainers.md)：容器开发与服务依赖的配置约定。
+- `bootstrap/macos/setup.sh`：macOS 基础工具初始化脚本。
+- `bootstrap/windows/setup.ps1`：Windows 基础工具初始化脚本。
+
+## 设计原则
+
+- 宿主机只安装通用工具；项目运行时和依赖优先由项目配置管理。
+- 正式项目按需使用 Dev Containers；简单临时脚本不强制容器化。
+- 项目语言版本由 `mise.toml`、`pyproject.toml` 等项目配置固定。
+- Redis、数据库等服务默认随项目使用 Docker Compose 隔离；确实需要共享时再单独配置。
+- Codex、Claude Code、微信开发者工具按需安装和登录，不把账号认证写进初始化脚本。
+- 不提交访问令牌、SSH 私钥、密码或生产环境密钥。
+
+## 说明
+
+初始化脚本只安装基础开发工具，不会自动配置 Git 身份、生成 SSH 密钥或登录任何服务。这样可以避免把个人信息和认证操作自动化到不合适的程度。

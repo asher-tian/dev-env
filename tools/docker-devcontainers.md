@@ -3,6 +3,7 @@
 ## 职责划分
 
 - 宿主机：Docker Desktop、VS Code、微信开发者工具，以及需要访问桌面或设备的应用。
+- 项目目录：所有仓库统一放在 `~/code` 下；Windows 原生使用 `$HOME\code`，WSL2 使用 WSL 内部的 `~/code`。
 - Windows + Linux 开发：推荐使用 Docker Desktop 的 WSL2 backend，并把项目源码放在 WSL2 的 Linux 文件系统中。
 - 项目容器：项目需要的 Linux 工具链、语言运行时和依赖。
 - Docker Compose：启动项目依赖的 Redis、数据库和其他微服务。
@@ -19,9 +20,9 @@
 
 ## 工作区挂载
 
-在 VS Code 中打开项目后，执行 **Dev Containers: Reopen in Container**。如果项目提供有效的 `.devcontainer/devcontainer.json`，VS Code 会按项目配置构建/启动容器并挂载工作区。
+在 VS Code 中打开 `~/code/project-name` 后，执行 **Dev Containers: Reopen in Container**。如果项目提供有效的 `.devcontainer/devcontainer.json`，VS Code 会按项目配置构建/启动容器并挂载工作区。
 
-代码通常保存在宿主机工作区中，通过 bind mount 供容器使用；容器不是每次都复制一份源代码。容器内创建的环境和依赖应通过 Dockerfile、Dev Container Features、锁文件及初始化命令重建。不要只在容器里手工安装依赖后就认为环境可复现。
+代码通常保存在宿主机工作区中，通过 bind mount 供容器使用；容器不是每次都复制一份源代码。Windows + WSL2 时，工作区应位于 WSL 的 Linux 文件系统中。容器内创建的环境和依赖应通过 Dockerfile、Dev Container Features、锁文件及初始化命令重建。不要只在容器里手工安装依赖后就认为环境可复现。
 
 ## 多环境边界
 

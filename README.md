@@ -2,6 +2,16 @@
 
 新电脑初始化与个人开发环境配置。目标是：**操作简单、优先脚本化、项目环境可复现**。
 
+## 统一项目目录
+
+所有代码仓库统一放在 `~/code` 下。
+
+- macOS / Linux / WSL2：`~/code/project-name`
+- Windows 原生 PowerShell：`$HOME\code\project-name`
+- Windows + WSL2 开发时，使用 WSL2 内部的 `~/code`，不要把 Linux 项目放在 `/mnt/c` 下。
+
+Windows、WSL2 和容器是不同环境；WSL2 项目通过 Dev Containers 工作区挂载进入容器，不需要复制一份代码。
+
 ## 新电脑快速开始
 
 1. 打开[新电脑初始化指南](./docs/new-computer-setup.md)。

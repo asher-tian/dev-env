@@ -122,3 +122,21 @@ Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https
 - 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。
 - Redis、数据库等依赖由项目的 Docker Compose 管理，除非确实需要共享服务。
 - 微信开发者工具按需安装；它需要宿主机 GUI，不放进开发容器。
+
+## 环境验收
+
+完成上述步骤后，运行对应系统的只读检查脚本：
+
+macOS：
+
+```bash
+bash bootstrap/macos/check.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\bootstrap\windows\check.ps1
+```
+
+如有 `[检查]` 项，按[验收及故障排查指南](./validation.md)逐项确认。脚本只读，不会安装软件或修改配置。

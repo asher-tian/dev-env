@@ -15,8 +15,8 @@ for package in git mise uv; do
   fi
 done
 
-echo "==> 安装 VS Code 和 Docker Desktop"
-for app in visual-studio-code docker; do
+echo "==> 安装 VS Code、Docker Desktop 和 iTerm2"
+for app in visual-studio-code docker iterm2; do
   if brew list --cask "$app" >/dev/null 2>&1; then
     echo "已安装：$app"
   else
@@ -40,4 +40,4 @@ fi
 echo
 echo "初始化完成。请重新打开终端，然后启动 Docker Desktop。"
 echo "检查版本：git --version && mise --version && uv --version"
-echo "VS Code 和 Docker Desktop 首次启动可能需要完成系统提示。"
+echo "VS Code、iTerm2 和 Docker Desktop 首次启动可能需要完成系统提示。"

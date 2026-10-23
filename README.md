@@ -18,6 +18,7 @@
 - [Git 配置](./git-config/README.md)：自动配置脚本、GitHub / Gitee SSH、GitHub Verified 签名提交、双平台同步。
 - [mise](./tools/mise.md)：项目级运行时版本管理。
 - [Docker 与 Dev Containers](./tools/docker-devcontainers.md)：容器开发与服务依赖的配置约定。
+- [Windows + WSL2 + Dev Containers](./tools/windows-wsl-devcontainers.md)：Windows 上推荐的 Linux 开发流程、Git/SSH 和 AI CLI 分层。
 - [Codex 与 Claude Code](./tools/ai-coding.md)：安装、登录、项目规则与配置边界。
 - [字体与编辑器显示](./tools/fonts.md)：Maple Mono NF CN 安装。
 - [VS Code 与终端](./tools/vscode-terminal.md)：Catppuccin Mocha、扩展、iTerm2、Windows Terminal 和 Settings Sync。

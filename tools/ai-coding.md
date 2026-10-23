@@ -79,7 +79,7 @@ claude doctor
 
 Claude Code 需要专用规则时，再添加 `CLAUDE.md`。不要在多个文件里复制大量重复内容。
 
-你在 [dev-templates](https://github.com/asher-tian/dev-templates) 的项目模板中已经有 `AGENTS.md`，后续应在模板中维护项目级规则，而不是把每个项目的规则写进本仓库。
+你在 [dev-templates](https://github.com/asher-tian/dev-templates) 的 Python CLI 模板中维护共享的 `AGENTS.md`；模板里的 `CLAUDE.md` 引用它，让 Claude Code 也遵循同一份规范。后续项目规则应继续维护在模板或具体项目中，而不是复制到本仓库。
 
 ## 官方文档
 

@@ -6,13 +6,13 @@
 
 1. 打开[新电脑初始化指南](./docs/new-computer-setup.md)。
 2. macOS 运行 `bash bootstrap/macos/setup.sh`；Windows 在 PowerShell 运行 `.\bootstrap\windows\setup.ps1`。
-3. 按[Git 配置指南](./git-config/README.md)设置提交身份和 SSH。
+3. 运行对应的 [Git 配置脚本](./git-config/README.md)，设置提交身份和 SSH。
 4. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
 
 ## 目录
 
 - [新电脑初始化](./docs/new-computer-setup.md)：从基础软件安装到开始开发。
-- [Git 配置](./git-config/README.md)：GitHub / Gitee SSH、GitHub Verified 签名提交、双平台同步。
+- [Git 配置](./git-config/README.md)：自动配置脚本、GitHub / Gitee SSH、GitHub Verified 签名提交、双平台同步。
 - [mise](./tools/mise.md)：项目级运行时版本管理。
 - [Docker 与 Dev Containers](./tools/docker-devcontainers.md)：容器开发与服务依赖的配置约定。
 - `bootstrap/macos/setup.sh`：macOS 基础工具初始化脚本。
@@ -29,4 +29,4 @@
 
 ## 说明
 
-初始化脚本只安装基础开发工具，不会自动配置 Git 身份、生成 SSH 密钥或登录任何服务。这样可以避免把个人信息和认证操作自动化到不合适的程度。
+初始化脚本不会自动登录 GitHub、Gitee、Codex 或 Claude Code。Git 配置脚本只在本机生成密钥、设置 Git，并显示需要手动添加到平台的公钥。

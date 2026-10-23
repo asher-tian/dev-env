@@ -13,10 +13,17 @@ $packages = @(
 )
 
 foreach ($package in $packages) {
-    Write-Host "`n==> 检查/安装 $($package.Name)"
+    Write-Host "`n==> 检查 $($package.Name)"
+    $installed = winget list --id $package.Id --exact 2>$null | Out-String
+    if ($installed -match [regex]::Escape($package.Id)) {
+        Write-Host "已安装，跳过：$($package.Name)"
+        continue
+    }
+
+    Write-Host "正在安装：$($package.Name)"
     winget install --id $package.Id --exact --accept-package-agreements --accept-source-agreements
     if ($LASTEXITCODE -ne 0) {
-        Write-Warning "安装命令返回代码 $LASTEXITCODE：$($package.Name)。请检查是否已安装，或按终端提示处理。"
+        Write-Warning "安装命令返回代码 $LASTEXITCODE：$($package.Name)。请检查 winget 输出后重试。"
     }
 }
 

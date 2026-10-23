@@ -1,0 +1,43 @@
+name: 检查初始化脚本语法
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shell:
+    name: Bash 语法
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 检查 shell 脚本
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            echo "检查 $file"
+            bash -n "$file"
+          done < <(find bootstrap git-config tools -type f -name '*.sh' -print0)
+
+  powershell:
+    name: PowerShell 语法
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 检查 PowerShell 脚本
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $files = Get-ChildItem -Path bootstrap, git-config, tools -Recurse -Filter '*.ps1' -File
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              $file.FullName, [ref]$tokens, [ref]$errors
+            ) | Out-Null
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error "$($file.FullName): $_" }
+              throw "语法检查失败：$($file.Name)"
+            }
+            Write-Host "通过：$($file.FullName)"
+          }

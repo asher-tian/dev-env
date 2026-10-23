@@ -30,6 +30,8 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\bootstrap\windows\setup.ps1
 ```
 
+**建议：** 如果主要使用 Docker、Dev Containers 和 Linux 工具链，继续按 [Windows WSL2 开发指南](../tools/windows-wsl-devcontainers.md)完成 WSL2 配置。Windows 原生 PowerShell、WSL2 和容器是独立环境；在 Windows 安装的 Git / SSH / Codex / Claude CLI 不会自动出现在 WSL 或容器中。
+
 ## 3. 配置 Git
 
 macOS：
@@ -38,13 +40,13 @@ macOS：
 bash git-config/setup-macos.sh
 ```
 
-Windows：
+Windows 原生开发：
 
 ```powershell
 .\git-config\setup-windows.ps1
 ```
 
-按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。详细说明见 [Git 配置指南](../git-config/README.md)。
+如果主要在 WSL2 中开发，请在 WSL Ubuntu 内另行配置 Git 身份与 SSH；不要假设 Windows 的 `C:\Users\...\.ssh` 会自动等同于 WSL 的 `~/.ssh`。按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。详细说明见 [Git 配置指南](../git-config/README.md)。
 
 ## 4. 安装 AI Coding 工具
 
@@ -54,20 +56,20 @@ macOS：
 bash tools/setup-ai-coding-macos.sh
 ```
 
-Windows：
+Windows 原生 PowerShell：
 
 ```powershell
 .\tools\setup-ai-coding-windows.ps1
 ```
 
-安装完成后，重新打开终端并检查：
+安装完成后，重新打开对应终端并检查：
 
 ```bash
 codex --version
 claude --version
 ```
 
-首次运行 `codex` 和 `claude` 时按提示自行登录。配置和项目规则见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
+首次运行 `codex` 和 `claude` 时按提示自行登录。若在 WSL 或 Dev Container 内运行 CLI，需要在对应环境安装并登录；不同环境的 CLI 和认证状态不会自动共享。配置见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
 
 ## 5. 安装字体并配置 VS Code / 终端
 

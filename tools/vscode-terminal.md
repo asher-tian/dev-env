@@ -48,10 +48,18 @@ Windows PowerShell：
   "editor.lineHeight": 28,
   "editor.letterSpacing": 0.3,
   "editor.minimap.enabled": false,
+
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "smooth",
+
   "editor.formatOnSave": true,
+
   "terminal.integrated.fontFamily": "'Maple Mono NF CN'",
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.lineHeight": 1.2,
+
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
@@ -63,6 +71,14 @@ Windows PowerShell：
   }
 }
 ```
+
+说明：
+
+- `editor.smoothScrolling`：编辑器内容平滑滚动。
+- `workbench.list.smoothScrolling`：资源管理器等列表平滑滚动。
+- `editor.cursorSmoothCaretAnimation` 和 `editor.cursorBlinking`：让光标移动与闪烁更平滑。
+- `editor.formatOnSave`：保存时自动格式化。请为使用的语言配置正确的默认格式化器，并在项目配置中统一格式化规则。
+- 这里是个人 User Settings 的建议配置；项目需要统一的工具版本和格式化规则时，应在项目配置中维护。
 
 如果 VS Code 没有找到字体，请先安装 [Maple Mono NF CN](./fonts.md)，然后重启 VS Code。
 

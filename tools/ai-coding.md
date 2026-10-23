@@ -12,7 +12,7 @@
 bash tools/setup-ai-coding-macos.sh
 ```
 
-### Windows（PowerShell）
+### Windows（PowerShell 原生环境）
 
 ```powershell
 .\tools\setup-ai-coding-windows.ps1
@@ -43,6 +43,18 @@ Claude Code 诊断：
 ```bash
 claude doctor
 ```
+
+## Windows、WSL2 与 Dev Container
+
+这三个环境是独立的：
+
+- 在 Windows PowerShell 安装的 CLI，只能保证在 Windows 环境可用。
+- 在 WSL Ubuntu 安装的 CLI，属于 WSL 用户环境。
+- 在 Dev Container 中运行 CLI，需要在容器内安装该 CLI。
+
+同样，Git 配置、SSH 密钥路径、PATH 和用户级认证配置也不会自动共享。Windows + WSL2 的推荐架构和 Git/SSH 配置见 [Windows WSL2 与 Dev Containers 指南](./windows-wsl-devcontainers.md)。
+
+若选择在容器内运行 CLI，把安装步骤写进项目的 Dev Container 配置，但不要把 API Key、访问令牌或个人登录缓存写进镜像或 Git。容器重建后认证状态可能需要重新登录；只有在理解工具的凭据存储机制并采用安全挂载后，才考虑持久化认证目录。不要为方便直接挂载整个宿主机用户目录。
 
 ## 配置放在哪里？
 

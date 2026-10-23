@@ -12,6 +12,7 @@ extensions=(
   Vue.volar
   golang.go
   ms-python.python
+  ms-python.vscode-pylance
   charliermarsh.ruff
   ms-azuretools.vscode-docker
   ms-vscode-remote.remote-containers

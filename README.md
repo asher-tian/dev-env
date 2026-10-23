@@ -9,7 +9,8 @@
 3. 运行对应的 [Git 配置脚本](./git-config/README.md)，设置提交身份和 SSH。
 4. 运行 [AI Coding 工具安装脚本](./tools/ai-coding.md)，安装 Codex 和 Claude Code。
 5. 按[字体指南](./tools/fonts.md)安装 Maple Mono NF CN，再按 [VS Code 与终端指南](./tools/vscode-terminal.md)配置主题、扩展和同步。
-6. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
+6. 可选运行 [Starship 安装脚本](./tools/starship.md)，统一 macOS zsh 与 Windows PowerShell 的提示符。
+7. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
 
 ## 目录
 
@@ -20,6 +21,7 @@
 - [Codex 与 Claude Code](./tools/ai-coding.md)：安装、登录、项目规则与配置边界。
 - [字体与编辑器显示](./tools/fonts.md)：Maple Mono NF CN 安装。
 - [VS Code 与终端](./tools/vscode-terminal.md)：Catppuccin Mocha、扩展、iTerm2、Windows Terminal 和 Settings Sync。
+- [Starship 提示符](./tools/starship.md)：跨 macOS / Windows 的终端提示符配置。
 
 ## 设计原则
 

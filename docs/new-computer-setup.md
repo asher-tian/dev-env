@@ -87,7 +87,25 @@ Windows（需先安装 [Scoop](https://scoop.sh/)）：
 
 macOS 基础脚本会安装 iTerm2；Windows 基础脚本会安装 Windows Terminal。VS Code 设置可使用内置 Settings Sync 同步到其他电脑。
 
-## 6. 创建项目
+## 6. 可选：配置 Starship 提示符
+
+Starship 可以统一 macOS zsh 和 Windows PowerShell 的终端提示符。运行对应脚本：
+
+macOS：
+
+```bash
+bash tools/setup-prompt-macos.sh
+```
+
+Windows：
+
+```powershell
+.\tools\setup-prompt-windows.ps1
+```
+
+脚本不会覆盖已有的 Starship 配置。详见 [Starship 指南](../tools/starship.md)。
+
+## 7. 创建项目
 
 项目模板单独维护在 [dev-templates](https://github.com/asher-tian/dev-templates)。
 
@@ -98,7 +116,7 @@ copier copy ./dev-templates/python-cli ./my-cli
 
 Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
 
-## 7. 开发原则
+## 8. 开发原则
 
 - 项目语言版本由项目配置决定，不在初始化脚本里安装所有 Python、Node.js、Go 版本。
 - 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。

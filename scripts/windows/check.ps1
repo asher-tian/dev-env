@@ -71,4 +71,4 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
 
 Write-Host "`nMaple Mono NF CN 字体、终端外观及 SSH 平台认证需要按文档手动检查。"
 Write-Host "`n结果：通过 $passed 项；需要检查 $warnings 项"
-Write-Host "验收指南：https://github.com/asher-tian/dev-env/blob/main/docs/validation.md"
+Write-Host "验收指南：https://github.com/asher-tian/dev-env/blob/main/docs/getting-started/validation.md"

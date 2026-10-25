@@ -57,7 +57,7 @@ mkdir -p ~/code
 cd ~/code
 ```
 
-安装完成后，建议在 WSL 终端中运行仓库的 Linux 初始化流程。该流程目前以 macOS 为主要脚本目标，因此 **不要在 WSL 中照搬 macOS 的 Homebrew 脚本**；先按官方说明安装 mise、uv，以及需要的 CLI 工具：
+本仓库尚无 Linux / WSL2 初始化脚本，**不要在 WSL 中执行 macOS 的 Homebrew 脚本**。安装完成后，在 WSL 终端按官方说明手动安装 mise、uv，以及需要的 CLI 工具：
 
 - [mise 安装](https://mise.jdx.dev/getting-started.html)
 - [uv 安装](https://docs.astral.sh/uv/getting-started/installation/)
@@ -83,7 +83,7 @@ git config --global user.email
 ssh -T git@github.com
 ```
 
-若还没有密钥，按本仓库 [Git 配置指南](../git-config/README.md)的步骤生成并将公钥添加到 GitHub。不要将私钥复制进镜像、提交到仓库或放进 Docker build context。
+若还没有密钥，按本仓库 [Git 配置指南](../git/README.md)的步骤生成并将公钥添加到 GitHub。不要将私钥复制进镜像、提交到仓库或放进 Docker build context。
 
 如果只在 Windows PowerShell 中开发，才使用 Windows 的 Git/SSH 配置。两边不必都配置，除非两边都会独立操作仓库。
 

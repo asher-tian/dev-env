@@ -62,5 +62,5 @@ git push origin main && git push gitee main
 - 开发、提交只做一次；每次提交后分别推送两个远程仓库。
 - 两个平台都有人直接提交时，先明确哪个仓库是主仓库，并先拉取、合并变更，再推送，避免历史分叉。
 - 两个平台的仓库应保持相同分支策略；首次同步前确认目标仓库没有需要保留的独立提交。
-- 如果使用 SSH，按[SSH 教程](./github-ssh.md)分别添加 GitHub 和 Gitee 公钥。
+- 如果使用 SSH，按[SSH 教程](github-ssh.md)分别添加 GitHub 和 Gitee 公钥。
 - commit 签名不会因为推送到两个平台而自动改变；GitHub Verified 不代表 Gitee 一定会显示同样标记。

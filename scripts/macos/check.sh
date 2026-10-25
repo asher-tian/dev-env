@@ -68,4 +68,4 @@ fi
 echo "Maple Mono NF CN 字体、终端外观及 SSH 平台认证需要按文档手动检查。"
 echo
 printf '结果：通过 %s 项；需要检查 %s 项\n' "$passed" "$warnings"
-echo "验收指南：https://github.com/asher-tian/dev-env/blob/main/docs/validation.md"
+echo "验收指南：https://github.com/asher-tian/dev-env/blob/main/docs/getting-started/validation.md"

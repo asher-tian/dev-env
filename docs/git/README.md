@@ -9,13 +9,13 @@
 ### macOS
 
 ```bash
-bash git-config/setup-macos.sh
+bash scripts/macos/setup-git.sh
 ```
 
 ### Windows（PowerShell）
 
 ```powershell
-.\git-config\setup-windows.ps1
+.\scripts\windows\setup-git.ps1
 ```
 
 脚本会询问 Git 提交昵称和邮箱，设置全局提交身份，生成 GitHub / Gitee 共用的 SSH 认证密钥，并配置 SSH 使用该密钥。签名提交是可选项。
@@ -24,9 +24,9 @@ bash git-config/setup-macos.sh
 
 ## 手动教程
 
-1. [GitHub / Gitee SSH 连接](./github-ssh.md)
-2. [GitHub Verified 签名提交](./signed-commits.md)：可选。
-3. [GitHub + Gitee 双平台同步](./github-gitee-sync.md)：需要同时推送两个平台时使用。
+1. [GitHub / Gitee SSH 连接](github-ssh.md)
+2. [GitHub Verified 签名提交](signed-commits.md)：可选。
+3. [GitHub + Gitee 双平台同步](github-gitee-sync.md)：需要同时推送两个平台时使用。
 
 ## 统一提交身份
 

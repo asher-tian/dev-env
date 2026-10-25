@@ -15,7 +15,7 @@ fi
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 mkdir -p "$CONFIG_DIR"
 if [[ ! -f "$CONFIG_DIR/starship.toml" ]]; then
-  cp "$(dirname "$0")/starship.toml" "$CONFIG_DIR/starship.toml"
+  cp "$(dirname "$0")/../../configs/starship.toml" "$CONFIG_DIR/starship.toml"
   echo "已创建配置：$CONFIG_DIR/starship.toml"
 else
   echo "检测到已有 Starship 配置，未覆盖：$CONFIG_DIR/starship.toml"

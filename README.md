@@ -1,179 +1,152 @@
 # dev-env
 
-新电脑初始化与个人开发环境配置。目标是：**操作简单、优先脚本化、项目环境可复现**。
+新电脑初始化与个人开发环境配置：通用工具由脚本安装，账号登录和个人偏好按清单手动完成，项目工具链由项目配置管理。
 
-## 统一项目目录
+## macOS：复制执行
 
-所有代码仓库统一放在 `~/code` 下。
-
-- macOS / Linux / WSL2：`~/code/project-name`
-- Windows 原生 PowerShell：`$HOME\code\project-name`
-- Windows + WSL2 开发时，使用 WSL2 内部的 `~/code`，不要把 Linux 项目放在 `/mnt/c` 下。
-
-Windows、WSL2 和容器是不同环境；WSL2 项目通过 Dev Containers 工作区挂载进入容器，不需要复制一份代码。
-
-## 新电脑快速开始
-
-先按[新电脑初始化指南](./docs/new-computer-setup.md#1-获取仓库)获取仓库。以下脚本均在 `dev-env` 仓库根目录执行，选择当前系统对应的命令。
-
-所有 `.sh` 脚本均支持 `bash 路径/脚本.sh` 和 `./路径/脚本.sh` 两种执行方式，例如 `bash bootstrap/macos/setup.sh` 或 `./bootstrap/macos/setup.sh`。通过 Git 克隆仓库后可直接执行；如果下载 ZIP 后执行权限丢失，可先运行 `chmod +x 路径/脚本.sh`。
-
-### 1. 安装基础工具
-
-macOS（先安装 [Homebrew](https://brew.sh/)）：
+先安装 [Homebrew](https://brew.sh/)。以下命令假设仓库位于 `~/code/dev-env`；已有仓库时跳过 clone。未安装 Git 时，可先下载仓库 ZIP 并解压到该目录。
 
 ```bash
-bash bootstrap/macos/setup.sh
+# 获取仓库；已有仓库时跳过这三行
+mkdir -p ~/code
+cd ~/code
+git clone https://github.com/asher-tian/dev-env.git
+
+# 安装 Git、mise、uv、VS Code、Docker Desktop、iTerm2，并在 .zshrc 启用 mise
+cd ~/code/dev-env
+bash scripts/macos/setup.sh
 ```
 
-Windows PowerShell（先安装或更新 [App Installer / winget](https://aka.ms/getwinget)）：
+完成后重新打开终端，启动 Docker Desktop，再执行：
+
+```bash
+cd ~/code/dev-env
+
+# 交互设置 Git 昵称/邮箱、生成 SSH 密钥；按提示选择是否启用提交签名
+bash scripts/macos/setup-git.sh
+
+# 安装 Maple Mono NF CN 字体
+bash scripts/macos/install-font.sh
+
+# 安装或更新 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展
+bash scripts/macos/setup-vscode.sh
+```
+
+可选工具按需单独执行：
+
+```bash
+# 安装 Codex 和 Claude Code CLI；安装后需分别启动并登录
+bash scripts/macos/setup-ai-coding.sh
+
+# 安装 Starship、复制默认配置并写入 .zshrc；保留已有 Starship 配置
+bash scripts/macos/setup-prompt.sh
+```
+
+## Windows：在 PowerShell 中复制执行
+
+先安装或更新 [App Installer / winget](https://aka.ms/getwinget)。以下命令假设仓库位于 `$HOME\code\dev-env`；已有仓库时跳过 clone。未安装 Git 时，可先下载仓库 ZIP 并解压到该目录。
+
+```powershell
+# 获取仓库；已有仓库时跳过这三行
+New-Item -ItemType Directory -Force "$HOME\code" | Out-Null
+Set-Location "$HOME\code"
+git clone https://github.com/asher-tian/dev-env.git
+
+# 仅为当前 PowerShell 会话允许执行脚本
+Set-ExecutionPolicy -Scope Process Bypass
+Set-Location "$HOME\code\dev-env"
+
+# 安装 Git、mise、uv、VS Code、Docker Desktop、Windows Terminal，并在当前 PowerShell profile 启用 mise
+.\scripts\windows\setup.ps1
+```
+
+完成后重新打开 PowerShell，启动 Docker Desktop，再执行：
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-.\bootstrap\windows\setup.ps1
+Set-Location "$HOME\code\dev-env"
+
+# 交互设置 Git 昵称/邮箱、生成 SSH 密钥；按提示选择是否启用提交签名
+.\scripts\windows\setup-git.ps1
+
+# 安装 Maple Mono NF CN 字体；需先手动安装 Scoop：https://scoop.sh/
+.\scripts\windows\install-font.ps1
+
+# 安装或更新 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展
+.\scripts\windows\setup-vscode.ps1
 ```
 
-安装完成后重新打开终端，回到仓库根目录，并启动 Docker Desktop。
+可选工具按需单独执行：
 
-### 2. 配置 Git 身份与 SSH
+```powershell
+# 安装 Codex 和 Claude Code CLI；安装后需分别启动并登录
+.\scripts\windows\setup-ai-coding.ps1
+
+# 安装 Starship、复制默认配置并写入当前 PowerShell profile；保留已有 Starship 配置
+.\scripts\windows\setup-prompt.ps1
+```
+
+以上 Windows 脚本用于原生 PowerShell 环境。WSL2 暂无自动初始化脚本，按 [WSL2 指南](docs/development/windows-wsl-devcontainers.md)手动配置。
+
+## 还需手动完成，然后验收
+
+- **Git**：将认证公钥添加到 GitHub / Gitee；若启用签名，将签名公钥另加为 GitHub Signing Key。
+- **编辑器与终端**：按 [VS Code 设置示例](docs/editor/vscode-terminal.md#2-vs-code-用户设置)合并用户设置，选择字体和主题；按需登录 Settings Sync。
+- **可选工具**：分别启动 `codex`、`claude` 登录；安装 Starship 后重开终端。
+
+完整操作见[手动配置清单](docs/getting-started/manual-configuration.md)。基础安装如有失败汇总，先修复并重跑；找不到 `code` 时，按 [VS Code 指南](docs/editor/vscode-terminal.md#1-安装常用-vs-code-扩展)配置 PATH。最后在仓库根目录执行当前系统的检查命令：
 
 macOS：
 
 ```bash
-bash git-config/setup-macos.sh
+# 只读检查工具、Git/Shell 配置和 Docker 连接，不安装软件或修改配置
+bash scripts/macos/check.sh
 ```
 
 Windows PowerShell：
 
 ```powershell
-.\git-config\setup-windows.ps1
+# 只读检查工具、Git/Shell 配置和 Docker 连接，不安装软件或修改配置
+.\scripts\windows\check.ps1
 ```
 
-按脚本提示将公钥添加到 GitHub / Gitee。详见 [Git 配置指南](./git-config/README.md)。
+检查结果按[验收指南](docs/getting-started/validation.md)确认。每个脚本的前提、写入位置和重跑行为见[脚本清单](docs/getting-started/scripts.md)；获取仓库到创建项目的完整流程见[初始化指南](docs/getting-started/new-computer-setup.md)。
 
-### 3. 安装 Codex 与 Claude Code
+## 目录与文档导航
 
-macOS：
-
-```bash
-bash tools/setup-ai-coding-macos.sh
+```text
+dev-env/
+├── README.md                 # 入口与导航
+├── docs/                     # 使用文档，按主题分类
+│   ├── getting-started/      # 初始化、脚本清单、手动配置、验收
+│   ├── git/                  # Git 身份、SSH、签名与双平台同步
+│   ├── development/          # mise、Docker、WSL2 与项目环境
+│   ├── editor/               # VS Code、字体与终端提示符
+│   └── ai/                   # Codex 与 Claude Code
+├── scripts/                  # 可执行脚本，按操作系统分类
+│   ├── macos/
+│   └── windows/
+├── configs/                  # 供脚本使用的默认配置
+│   └── starship.toml
+└── .github/workflows/        # 脚本语法检查
 ```
 
-Windows PowerShell：
+| 主题 | 文档 |
+| --- | --- |
+| 初始化与验收 | [完整步骤](docs/getting-started/new-computer-setup.md) · [脚本清单](docs/getting-started/scripts.md) · [手动配置](docs/getting-started/manual-configuration.md) · [验收与排查](docs/getting-started/validation.md) |
+| Git | [配置入口](docs/git/README.md) · [SSH](docs/git/github-ssh.md) · [签名提交](docs/git/signed-commits.md) · [GitHub / Gitee 同步](docs/git/github-gitee-sync.md) |
+| 项目环境 | [mise](docs/development/mise.md) · [Docker 与 Dev Containers](docs/development/docker-devcontainers.md) · [Windows / WSL2](docs/development/windows-wsl-devcontainers.md) |
+| 编辑器与终端 | [VS Code 与终端](docs/editor/vscode-terminal.md) · [字体](docs/editor/fonts.md) · [Starship](docs/editor/starship.md) |
+| AI Coding | [Codex 与 Claude Code](docs/ai/ai-coding.md) |
 
-```powershell
-.\tools\setup-ai-coding-windows.ps1
-```
+## 目录与开发约定
 
-安装后重新打开终端，分别运行 `codex` 和 `claude` 完成登录。详见 [AI Coding 工具指南](./tools/ai-coding.md)。
+- macOS / Linux / WSL2 的项目放在 `~/code/project-name`；Windows 原生项目放在 `$HOME\code\project-name`。
+- WSL2 项目放在 Linux 内部的 `~/code`，通过工作区挂载进入 Dev Container。
+- 宿主机安装通用工具；项目语言版本和依赖由 `mise.toml`、`pyproject.toml` 等项目配置固定。
+- 复杂项目按需使用 Dev Containers；数据库、Redis 等服务优先用项目的 Docker Compose 隔离。
+- 安装脚本不代替账号登录，不提交访问令牌、SSH 私钥或生产凭据。
 
-### 4. 安装 Maple Mono NF CN 字体
+新增教程放入对应的 `docs/` 主题目录；新增脚本放入对应系统的 `scripts/` 并更新脚本清单；可复用的默认配置放入 `configs/`。
 
-macOS：
-
-```bash
-bash tools/install-font-macos.sh
-```
-
-Windows PowerShell（先安装 [Scoop](https://scoop.sh/)）：
-
-```powershell
-.\tools\install-font-windows.ps1
-```
-
-详见[字体指南](./tools/fonts.md)。
-
-### 5. 安装 VS Code 扩展并配置编辑器
-
-macOS：
-
-```bash
-bash tools/setup-vscode-macos.sh
-```
-
-Windows PowerShell：
-
-```powershell
-.\tools\setup-vscode-windows.ps1
-```
-
-脚本安装 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker 和 Dev Containers 扩展。用户设置、终端字体和 Settings Sync 按 [VS Code 与终端指南](./tools/vscode-terminal.md)配置。
-
-### 6. 可选：配置 Starship 提示符
-
-macOS：
-
-```bash
-bash tools/setup-prompt-macos.sh
-```
-
-Windows PowerShell：
-
-```powershell
-.\tools\setup-prompt-windows.ps1
-```
-
-详见 [Starship 指南](./tools/starship.md)。
-
-### 7. 验收开发环境
-
-macOS：
-
-```bash
-bash bootstrap/macos/check.sh
-```
-
-Windows PowerShell：
-
-```powershell
-.\bootstrap\windows\check.ps1
-```
-
-检查项和排查说明参见[开发环境验收指南](./docs/validation.md)。
-
-### 8. 创建项目
-
-以下示例在 macOS / Linux / WSL2 中执行；已有 `~/code/dev-templates` 时跳过 clone：
-
-```bash
-uv tool install copier
-cd ~/code
-git clone https://github.com/asher-tian/dev-templates.git
-copier copy ./dev-templates/python-cli ./my-cli
-```
-
-Windows PowerShell 原生环境：
-
-```powershell
-uv tool install copier
-Set-Location "$HOME\code"
-git clone https://github.com/asher-tian/dev-templates.git
-copier copy ./dev-templates/python-cli ./my-cli
-```
-
-项目模板及使用说明见 [dev-templates](https://github.com/asher-tian/dev-templates)。Windows + WSL2 开发请先按 [WSL2 指南](./tools/windows-wsl-devcontainers.md)配置对应环境，Windows 原生安装结果不会自动用于 WSL2。
-
-## 目录
-
-- [新电脑初始化](./docs/new-computer-setup.md)：从基础软件安装到开始开发。
-- [Git 配置](./git-config/README.md)：自动配置脚本、GitHub / Gitee SSH、GitHub Verified 签名提交、双平台同步。
-- [mise](./tools/mise.md)：项目级运行时版本管理。
-- [Docker 与 Dev Containers](./tools/docker-devcontainers.md)：容器开发与服务依赖的配置约定。
-- [Windows + WSL2 + Dev Containers](./tools/windows-wsl-devcontainers.md)：Windows 上推荐的 Linux 开发流程、Git/SSH 和 AI CLI 分层。
-- [Codex 与 Claude Code](./tools/ai-coding.md)：安装、登录、项目规则与配置边界。
-- [字体与编辑器显示](./tools/fonts.md)：Maple Mono NF CN 安装。
-- [VS Code 与终端](./tools/vscode-terminal.md)：Catppuccin Mocha、扩展、iTerm2、Windows Terminal 和 Settings Sync。
-- [Starship 提示符](./tools/starship.md)：跨 macOS / Windows 的终端提示符配置。
-
-## 设计原则
-
-- 宿主机只安装通用工具；项目运行时和依赖优先由项目配置管理。
-- 正式项目按需使用 Dev Containers；简单临时脚本不强制容器化。
-- 项目语言版本由 `mise.toml`、`pyproject.toml` 等项目配置固定。
-- Redis、数据库等服务默认随项目使用 Docker Compose 隔离；确实需要共享时再单独配置。
-- Codex、Claude Code、微信开发者工具按需安装并登录，不把账号认证写进初始化脚本。
-- 不提交访问令牌、SSH 私钥、密码或生产环境密钥。
-
-## 说明
-
-初始化脚本不会自动登录 GitHub、Gitee、Codex 或 Claude Code。Git 配置脚本只在本机生成密钥、设置 Git，并显示需要手动添加到平台的公钥。
+旧版 `bootstrap/`、`git-config/`、`tools/` 已整合到上述目录，旧命令请按脚本清单更新。

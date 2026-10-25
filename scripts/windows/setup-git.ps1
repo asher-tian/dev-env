@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-    throw "未检测到 Git。请先运行 bootstrap\windows\setup.ps1，然后重新打开 PowerShell。"
+    throw "未检测到 Git。请先运行 scripts\windows\setup.ps1，然后重新打开 PowerShell。"
 }
 if (-not (Get-Command ssh-keygen -ErrorAction SilentlyContinue)) {
     throw "未检测到 ssh-keygen，请检查 Git for Windows 或 Windows OpenSSH 是否可用。"

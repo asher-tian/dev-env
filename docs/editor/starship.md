@@ -11,7 +11,7 @@
 ### macOS
 
 ```bash
-bash tools/setup-prompt-macos.sh
+bash scripts/macos/setup-prompt.sh
 ```
 
 脚本通过 Homebrew 安装 Starship，将配置复制到 `~/.config/starship.toml`，并在 `.zshrc` 中添加初始化命令。
@@ -19,7 +19,7 @@ bash tools/setup-prompt-macos.sh
 ### Windows（PowerShell）
 
 ```powershell
-.\tools\setup-prompt-windows.ps1
+.\scripts\windows\setup-prompt.ps1
 ```
 
 脚本通过 winget 安装 Starship，将配置复制到 `~/.config/starship.toml`，并在 PowerShell profile 中添加初始化命令。
@@ -33,7 +33,7 @@ bash tools/setup-prompt-macos.sh
 - 执行时间超过 2 秒的命令耗时
 - 上一条命令的成功 / 失败状态
 
-推荐配合 [Maple Mono NF CN](./fonts.md)，以正确显示终端图标。
+推荐配合 [Maple Mono NF CN](fonts.md)，以正确显示终端图标。
 
 ## 常见问题
 

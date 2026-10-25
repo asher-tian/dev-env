@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if ! command -v git >/dev/null 2>&1; then
-  echo "未检测到 Git。请先运行 ../bootstrap/macos/setup.sh"
+  echo "未检测到 Git。请先运行 scripts/macos/setup.sh"
   exit 1
 fi
 if ! command -v ssh-keygen >/dev/null 2>&1; then

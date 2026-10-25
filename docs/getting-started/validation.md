@@ -2,6 +2,8 @@
 
 初始化脚本执行后，用一条命令快速检查工具和配置。**检查脚本只读取当前环境，不安装软件、不修改配置、不读取私钥内容。**
 
+执行前先完成[手动配置清单](manual-configuration.md)。
+
 ## 运行
 
 在 `dev-env` 仓库根目录执行：
@@ -9,13 +11,13 @@
 **macOS**
 
 ```bash
-bash bootstrap/macos/check.sh
+bash scripts/macos/check.sh
 ```
 
 **Windows PowerShell**
 
 ```powershell
-.\bootstrap\windows\check.ps1
+.\scripts\windows\check.ps1
 ```
 
 `[OK]` 表示检查通过；`[检查]` 表示可能缺少配置、软件未安装或没有加入 PATH。可选工具缺失不一定是问题。

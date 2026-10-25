@@ -16,7 +16,7 @@ $configDir = Join-Path $HOME ".config"
 New-Item -ItemType Directory -Path $configDir -Force | Out-Null
 $configPath = Join-Path $configDir "starship.toml"
 if (-not (Test-Path $configPath)) {
-    Copy-Item (Join-Path $PSScriptRoot "starship.toml") $configPath
+    Copy-Item (Join-Path $PSScriptRoot "../../configs/starship.toml") $configPath
     Write-Host "已创建配置：$configPath"
 } else {
     Write-Host "检测到已有 Starship 配置，未覆盖：$configPath"

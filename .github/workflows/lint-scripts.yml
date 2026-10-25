@@ -17,7 +17,7 @@ jobs:
           while IFS= read -r -d '' file; do
             echo "检查 $file"
             bash -n "$file"
-          done < <(find bootstrap git-config tools -type f -name '*.sh' -print0)
+          done < <(find scripts -type f -name '*.sh' -print0)
 
   powershell:
     name: PowerShell 语法
@@ -28,7 +28,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $files = Get-ChildItem -Path bootstrap, git-config, tools -Recurse -Filter '*.ps1' -File
+          $files = Get-ChildItem -Path scripts -Recurse -Filter '*.ps1' -File
           foreach ($file in $files) {
             $tokens = $null
             $errors = $null

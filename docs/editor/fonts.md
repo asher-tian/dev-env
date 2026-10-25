@@ -20,7 +20,7 @@
 安装 [Homebrew](https://brew.sh/) 后运行：
 
 ```bash
-bash tools/install-font-macos.sh
+bash scripts/macos/install-font.sh
 ```
 
 ### Windows
@@ -28,28 +28,14 @@ bash tools/install-font-macos.sh
 先安装 [Scoop](https://scoop.sh/)，再运行本仓库脚本：
 
 ```powershell
-.\tools\install-font-windows.ps1
+.\scripts\windows\install-font.ps1
 ```
 
 脚本会添加 Nerd Fonts bucket 并安装 Maple Mono NF CN。安装后如应用没有识别新字体，请重启 VS Code 和终端。
 
 ## VS Code 字体设置
 
-打开命令面板，选择 **Preferences: Open User Settings (JSON)**，加入或合并以下配置。放在用户设置中，不要放进项目的 `.vscode/settings.json`，这样所有项目都统一使用。
-
-```json
-{
-  "editor.fontFamily": "'Maple Mono NF CN', 'SF Mono', Menlo, Consolas, monospace",
-  "editor.fontSize": 17,
-  "editor.fontWeight": "400",
-  "editor.fontLigatures": true,
-  "editor.lineHeight": 28,
-  "editor.letterSpacing": 0.3,
-  "terminal.integrated.fontFamily": "'Maple Mono NF CN'",
-  "terminal.integrated.fontSize": 16,
-  "terminal.integrated.lineHeight": 1.2
-}
-```
+打开命令面板，选择 **Preferences: Open User Settings (JSON)**，按 [VS Code 与终端指南](vscode-terminal.md#2-vs-code-用户设置)合并字体及终端设置。统一用户设置示例只在该指南维护，避免两处不一致。
 
 如果你使用 VS Code Settings Sync，它可以同步这些设置，但**不会替你在新电脑安装字体**；每台电脑都需要安装一次字体。
 

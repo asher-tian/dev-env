@@ -73,7 +73,7 @@ Gitee 仓库：
 git remote set-url origin git@gitee.com:用户名/仓库名.git
 ```
 
-将示例替换为自己的地址。如果同一项目要同时推送到两个平台，请参考[双平台同步](./github-gitee-sync.md)，不要把两个地址都设为同一个 `origin`。
+将示例替换为自己的地址。如果同一项目要同时推送到两个平台，请参考[双平台同步](github-gitee-sync.md)，不要把两个地址都设为同一个 `origin`。
 
 ## 多台开发机器
 

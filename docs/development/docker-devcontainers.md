@@ -12,7 +12,7 @@
 ## 推荐方式
 
 - macOS：Docker Desktop + VS Code + Dev Containers。
-- Windows：Docker Desktop（WSL2 backend）+ Ubuntu on WSL2 + VS Code Remote - WSL / Dev Containers。完整步骤见 [Windows WSL2 指南](./windows-wsl-devcontainers.md)。
+- Windows：Docker Desktop（WSL2 backend）+ Ubuntu on WSL2 + VS Code Remote - WSL / Dev Containers。完整步骤见 [Windows WSL2 指南](windows-wsl-devcontainers.md)。
 - 正式项目：优先考虑 Dev Container。
 - 简单的一次性脚本：直接使用本机工具即可，不强制容器化。
 - 微服务：每个系统用自己的 Compose 网络和依赖；跨项目共享服务时再显式配置共享网络。

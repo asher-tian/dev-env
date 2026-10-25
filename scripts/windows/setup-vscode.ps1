@@ -23,4 +23,4 @@ foreach ($extension in $extensions) {
     }
 }
 
-Write-Host "`n扩展安装完成。请按 tools/vscode-terminal.md 配置主题、字体和 Settings Sync。"
+Write-Host "`n扩展安装完成。请按 docs/editor/vscode-terminal.md 配置主题、字体和 Settings Sync。"

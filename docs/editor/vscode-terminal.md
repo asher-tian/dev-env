@@ -5,7 +5,7 @@
 ## 推荐组合
 
 - VS Code 主题：Catppuccin Mocha（深色）。
-- 字体：Maple Mono NF CN，见[字体指南](./fonts.md)。
+- 字体：Maple Mono NF CN，见[字体指南](fonts.md)。
 - Python：Python 扩展 + Pylance 负责语言服务，Ruff 负责格式化、Lint 和导入排序。
 - macOS 终端：iTerm2。
 - Windows 终端：Windows Terminal。
@@ -20,13 +20,13 @@
 macOS：
 
 ```bash
-bash tools/setup-vscode-macos.sh
+bash scripts/macos/setup-vscode.sh
 ```
 
 Windows PowerShell：
 
 ```powershell
-.\tools\setup-vscode-windows.ps1
+.\scripts\windows\setup-vscode.ps1
 ```
 
 脚本安装 Catppuccin 主题，以及 Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展。微信小程序项目继续使用微信开发者工具；如果项目需要专用 VS Code 扩展，再按需添加。
@@ -88,7 +88,7 @@ Windows PowerShell：
 - 以上代码动作只针对 Python，并明确指定 Ruff，避免其他扩展重复执行 Fix All 或导入整理。
 - 项目需要统一的工具版本和格式化规则时，应在项目配置中维护，例如使用 `pyproject.toml` 配置 Ruff；不要依赖个人 User Settings 来代替项目规范。
 
-如果 VS Code 没有找到字体，请先安装 [Maple Mono NF CN](./fonts.md)，然后重启 VS Code。
+如果 VS Code 没有找到字体，请先安装 [Maple Mono NF CN](fonts.md)，然后重启 VS Code。
 
 ## 3. Python 工具职责
 

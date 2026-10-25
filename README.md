@@ -16,6 +16,8 @@ Windows、WSL2 和容器是不同环境；WSL2 项目通过 Dev Containers 工�
 
 先按[新电脑初始化指南](./docs/new-computer-setup.md#1-获取仓库)获取仓库。以下脚本均在 `dev-env` 仓库根目录执行，选择当前系统对应的命令。
 
+所有 `.sh` 脚本均支持 `bash 路径/脚本.sh` 和 `./路径/脚本.sh` 两种执行方式，例如 `bash bootstrap/macos/setup.sh` 或 `./bootstrap/macos/setup.sh`。通过 Git 克隆仓库后可直接执行；如果下载 ZIP 后执行权限丢失，可先运行 `chmod +x 路径/脚本.sh`。
+
 ### 1. 安装基础工具
 
 macOS（先安装 [Homebrew](https://brew.sh/)）：

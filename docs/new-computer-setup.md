@@ -26,6 +26,8 @@ Set-Location dev-env
 
 如果还没有 Git，可以先从 GitHub 下载仓库 ZIP 并解压到对应的 code 目录，再按后续步骤安装工具。
 
+以下 `.sh` 脚本均可用 `bash 路径/脚本.sh` 或 `./路径/脚本.sh` 执行，例如 `bash bootstrap/macos/setup.sh` 和 `./bootstrap/macos/setup.sh`。Git 克隆会保留执行权限；如果下载 ZIP 后执行权限丢失，可先运行 `chmod +x 路径/脚本.sh`。
+
 ## 2. 安装基础工具
 
 基础安装脚本在单个工具安装失败时会提示错误并继续安装后续工具，结束时汇总失败项。修复问题后可重新运行脚本，已安装的工具会自动跳过。

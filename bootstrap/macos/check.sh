@@ -10,9 +10,9 @@ warn() { printf '  [检查] %s\n' "$1"; warnings=$((warnings + 1)); }
 check_cmd() {
   local label="$1" cmd="$2"
   if command -v "$cmd" >/dev/null 2>&1; then
-    ok "$label：$(command -v "$cmd")"
+    ok "${label}：$(command -v "$cmd")"
   else
-    warn "$label：未在 PATH 中找到 $cmd"
+    warn "${label}：未在 PATH 中找到 $cmd"
   fi
 }
 

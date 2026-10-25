@@ -6,12 +6,20 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
+failed_packages=()
+
 echo "==> 安装基础开发工具"
 for package in git mise uv; do
   if brew list --formula "$package" >/dev/null 2>&1; then
     echo "已安装：$package"
   else
-    brew install "$package"
+    if brew install "$package"; then
+      :
+    else
+      status=$?
+      echo "警告：安装失败：${package}（退出码 ${status}），继续安装后续工具。" >&2
+      failed_packages+=("$package")
+    fi
   fi
 done
 
@@ -20,7 +28,13 @@ for app in visual-studio-code docker iterm2; do
   if brew list --cask "$app" >/dev/null 2>&1; then
     echo "已安装：$app"
   else
-    brew install --cask "$app"
+    if brew install --cask "$app"; then
+      :
+    else
+      status=$?
+      echo "警告：安装失败：${app}（退出码 ${status}），继续安装后续工具。" >&2
+      failed_packages+=("$app")
+    fi
   fi
 done
 
@@ -38,6 +52,12 @@ else
 fi
 
 echo
-echo "初始化完成。请重新打开终端，然后启动 Docker Desktop。"
+if [ "${#failed_packages[@]}" -gt 0 ]; then
+  echo "初始化流程已结束，以下工具安装失败，请检查上方输出后重新运行脚本：" >&2
+  printf '  - %s\n' "${failed_packages[@]}" >&2
+else
+  echo "初始化完成。"
+fi
+echo "请重新打开终端，然后启动 Docker Desktop。"
 echo "检查版本：git --version && mise --version && uv --version"
 echo "VS Code、iTerm2 和 Docker Desktop 首次启动可能需要完成系统提示。"

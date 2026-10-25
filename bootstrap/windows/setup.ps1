@@ -13,18 +13,26 @@ $packages = @(
     @{ Id = "Microsoft.WindowsTerminal"; Name = "Windows Terminal" }
 )
 
-foreach ($package in $packages) {
-    Write-Host "`n==> 检查 $($package.Name)"
-    $installed = winget list --id $package.Id --exact 2>$null | Out-String
-    if ($installed -match [regex]::Escape($package.Id)) {
-        Write-Host "已安装，跳过：$($package.Name)"
-        continue
-    }
+$failedPackages = @()
 
-    Write-Host "正在安装：$($package.Name)"
-    winget install --id $package.Id --exact --accept-package-agreements --accept-source-agreements
-    if ($LASTEXITCODE -ne 0) {
-        Write-Warning "安装命令返回代码 $LASTEXITCODE：$($package.Name)。请检查 winget 输出后重试。"
+foreach ($package in $packages) {
+    try {
+        Write-Host "`n==> 检查 $($package.Name)"
+        $installed = winget list --id $package.Id --exact 2>$null | Out-String
+        if ($installed -match [regex]::Escape($package.Id)) {
+            Write-Host "已安装，跳过：$($package.Name)"
+            continue
+        }
+
+        Write-Host "正在安装：$($package.Name)"
+        winget install --id $package.Id --exact --accept-package-agreements --accept-source-agreements
+        if ($LASTEXITCODE -ne 0) {
+            $failedPackages += $package.Name
+            Write-Warning "安装失败：$($package.Name)（退出码 $LASTEXITCODE），继续安装后续工具。"
+        }
+    } catch {
+        $failedPackages += $package.Name
+        Write-Warning "检查或安装失败：$($package.Name)：$($_.Exception.Message)。继续安装后续工具。"
     }
 }
 
@@ -45,6 +53,11 @@ if ($profileContent -notmatch [regex]::Escape('mise activate pwsh')) {
     Write-Host "已存在 mise PowerShell 初始化配置"
 }
 
-Write-Host "`n初始化命令已执行。请关闭并重新打开终端，再启动 Docker Desktop。"
+if ($failedPackages.Count -gt 0) {
+    Write-Warning "初始化流程已结束，以下工具检查或安装失败，请检查上方输出后重新运行脚本：$($failedPackages -join '、')"
+} else {
+    Write-Host "`n初始化完成。"
+}
+Write-Host "请关闭并重新打开终端，再启动 Docker Desktop。"
 Write-Host "检查版本：git --version; mise --version; uv --version"
 Write-Host "如果某个软件刚安装后仍无法识别，请重新打开终端后再检查。"

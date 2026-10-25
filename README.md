@@ -14,13 +14,142 @@ Windows、WSL2 和容器是不同环境；WSL2 项目通过 Dev Containers 工�
 
 ## 新电脑快速开始
 
-1. 打开[新电脑初始化指南](./docs/new-computer-setup.md)。
-2. macOS 运行 `bash bootstrap/macos/setup.sh`；Windows 在 PowerShell 运行 `.\bootstrap\windows\setup.ps1`。
-3. 运行对应的 [Git 配置脚本](./git-config/README.md)，设置提交身份和 SSH。
-4. 运行 [AI Coding 工具安装脚本](./tools/ai-coding.md)，安装 Codex 和 Claude Code。
-5. 按[字体指南](./tools/fonts.md)安装 Maple Mono NF CN，再按 [VS Code 与终端指南](./tools/vscode-terminal.md)配置主题、扩展和同步。
-6. 可选运行 [Starship 安装脚本](./tools/starship.md)，统一 macOS zsh 与 Windows PowerShell 的提示符。
-7. 用 [dev-templates](https://github.com/asher-tian/dev-templates) 创建新项目。
+先按[新电脑初始化指南](./docs/new-computer-setup.md#1-获取仓库)获取仓库。以下脚本均在 `dev-env` 仓库根目录执行，选择当前系统对应的命令。
+
+### 1. 安装基础工具
+
+macOS（先安装 [Homebrew](https://brew.sh/)）：
+
+```bash
+bash bootstrap/macos/setup.sh
+```
+
+Windows PowerShell（先安装或更新 [App Installer / winget](https://aka.ms/getwinget)）：
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\bootstrap\windows\setup.ps1
+```
+
+安装完成后重新打开终端，回到仓库根目录，并启动 Docker Desktop。
+
+### 2. 配置 Git 身份与 SSH
+
+macOS：
+
+```bash
+bash git-config/setup-macos.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\git-config\setup-windows.ps1
+```
+
+按脚本提示将公钥添加到 GitHub / Gitee。详见 [Git 配置指南](./git-config/README.md)。
+
+### 3. 安装 Codex 与 Claude Code
+
+macOS：
+
+```bash
+bash tools/setup-ai-coding-macos.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\tools\setup-ai-coding-windows.ps1
+```
+
+安装后重新打开终端，分别运行 `codex` 和 `claude` 完成登录。详见 [AI Coding 工具指南](./tools/ai-coding.md)。
+
+### 4. 安装 Maple Mono NF CN 字体
+
+macOS：
+
+```bash
+bash tools/install-font-macos.sh
+```
+
+Windows PowerShell（先安装 [Scoop](https://scoop.sh/)）：
+
+```powershell
+.\tools\install-font-windows.ps1
+```
+
+详见[字体指南](./tools/fonts.md)。
+
+### 5. 安装 VS Code 扩展并配置编辑器
+
+macOS：
+
+```bash
+bash tools/setup-vscode-macos.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\tools\setup-vscode-windows.ps1
+```
+
+脚本安装 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker 和 Dev Containers 扩展。用户设置、终端字体和 Settings Sync 按 [VS Code 与终端指南](./tools/vscode-terminal.md)配置。
+
+### 6. 可选：配置 Starship 提示符
+
+macOS：
+
+```bash
+bash tools/setup-prompt-macos.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\tools\setup-prompt-windows.ps1
+```
+
+详见 [Starship 指南](./tools/starship.md)。
+
+### 7. 验收开发环境
+
+macOS：
+
+```bash
+bash bootstrap/macos/check.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\bootstrap\windows\check.ps1
+```
+
+检查项和排查说明参见[开发环境验收指南](./docs/validation.md)。
+
+### 8. 创建项目
+
+以下示例在 macOS / Linux / WSL2 中执行；已有 `~/code/dev-templates` 时跳过 clone：
+
+```bash
+uv tool install copier
+cd ~/code
+git clone https://github.com/asher-tian/dev-templates.git
+copier copy ./dev-templates/python-cli ./my-cli
+```
+
+Windows PowerShell 原生环境：
+
+```powershell
+uv tool install copier
+Set-Location "$HOME\code"
+git clone https://github.com/asher-tian/dev-templates.git
+copier copy ./dev-templates/python-cli ./my-cli
+```
+
+项目模板及使用说明见 [dev-templates](https://github.com/asher-tian/dev-templates)。Windows + WSL2 开发请先按 [WSL2 指南](./tools/windows-wsl-devcontainers.md)配置对应环境，Windows 原生安装结果不会自动用于 WSL2。
 
 ## 目录
 
@@ -46,12 +175,3 @@ Windows、WSL2 和容器是不同环境；WSL2 项目通过 Dev Containers 工�
 ## 说明
 
 初始化脚本不会自动登录 GitHub、Gitee、Codex 或 Claude Code。Git 配置脚本只在本机生成密钥、设置 Git，并显示需要手动添加到平台的公钥。
-
-## 环境验收
-
-新电脑安装完成后运行只读验收脚本：
-
-- macOS：`bash bootstrap/macos/check.sh`
-- Windows PowerShell：`.\bootstrap\windows\check.ps1`
-
-检查项和排查说明参见 [开发环境验收指南](./docs/validation.md)。

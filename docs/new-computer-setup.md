@@ -63,7 +63,7 @@ Windows 原生开发：
 
 如果主要在 WSL2 中开发，请在 WSL Ubuntu 内另行配置 Git 身份与 SSH；不要假设 Windows 的 `C:\Users\...\.ssh` 会自动等同于 WSL 的 `~/.ssh`。按脚本最后显示的链接，将公钥添加到 GitHub / Gitee。不要上传私钥。详细说明见 [Git 配置指南](../git-config/README.md)。
 
-## 4. 安装 AI Coding 工具
+## 4. 安装 Codex 与 Claude Code
 
 macOS：
 
@@ -86,7 +86,7 @@ claude --version
 
 首次运行 `codex` 和 `claude` 时按提示自行登录。若在 WSL 或 Dev Container 内运行 CLI，需要在对应环境安装并登录；不同环境的 CLI 和认证状态不会自动共享。配置见 [Codex 与 Claude Code 指南](../tools/ai-coding.md)。
 
-## 5. 安装字体并配置 VS Code / 终端
+## 5. 安装 Maple Mono NF CN 字体
 
 统一使用 Maple Mono NF CN。macOS：
 
@@ -100,11 +100,27 @@ Windows（需先安装 [Scoop](https://scoop.sh/)）：
 .\tools\install-font-windows.ps1
 ```
 
-然后按[VS Code 与终端配置指南](../tools/vscode-terminal.md)安装扩展、选择 Catppuccin Mocha 主题并配置字体。
+## 6. 安装 VS Code 扩展并配置编辑器
+
+macOS：
+
+```bash
+bash tools/setup-vscode-macos.sh
+```
+
+Windows PowerShell：
+
+```powershell
+.\tools\setup-vscode-windows.ps1
+```
+
+脚本安装 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker 和 Dev Containers 扩展。若 macOS 提示找不到 `code`，先在 VS Code 命令面板运行 **Shell Command: Install 'code' command in PATH**，再重新打开终端执行脚本。
+
+安装后，在 VS Code 命令面板运行 **Preferences: Open User Settings (JSON)**，按[VS Code 与终端配置指南](../tools/vscode-terminal.md)合并用户设置，再配置终端字体和 Settings Sync。
 
 macOS 基础脚本会安装 iTerm2；Windows 基础脚本会安装 Windows Terminal。VS Code 设置可使用内置 Settings Sync 同步到其他电脑。
 
-## 6. 可选：配置 Starship 提示符
+## 7. 可选：配置 Starship 提示符
 
 Starship 可以统一 macOS zsh 和 Windows PowerShell 的终端提示符。运行对应脚本：
 
@@ -122,30 +138,9 @@ Windows：
 
 脚本不会覆盖已有的 Starship 配置。详见 [Starship 指南](../tools/starship.md)。
 
-## 7. 创建项目
+## 8. 验收开发环境
 
-模板仓库也放在 `~/code` 下。从 `~/code` 执行：
-
-```bash
-cd ~/code
-git clone https://github.com/asher-tian/dev-templates.git
-copier copy ./dev-templates/python-cli ./my-cli
-```
-
-如果 `~/code/dev-templates` 已经存在，跳过 clone，直接执行 Copier 命令。Windows PowerShell 原生环境使用 `$HOME\code` 下的目录；WSL2 开发使用 WSL2 内部的 `~/code`。
-
-Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
-
-## 8. 开发原则
-
-- 项目语言版本由项目配置决定，不在初始化脚本里安装所有 Python、Node.js、Go 版本。
-- 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。
-- Redis、数据库等依赖由项目的 Docker Compose 管理，除非确实需要共享服务。
-- 微信开发者工具按需安装；它需要宿主机 GUI，不放进开发容器。
-
-## 环境验收
-
-完成上述步骤后，运行对应系统的只读检查脚本：
+完成安装与配置后，运行对应系统的只读检查脚本：
 
 macOS：
 
@@ -160,3 +155,34 @@ Windows PowerShell：
 ```
 
 如有 `[检查]` 项，按[验收及故障排查指南](./validation.md)逐项确认。脚本只读，不会安装软件或修改配置。
+
+## 9. 创建项目
+
+模板仓库也放在 `~/code` 下。从 `~/code` 执行：
+
+```bash
+uv tool install copier
+cd ~/code
+git clone https://github.com/asher-tian/dev-templates.git
+copier copy ./dev-templates/python-cli ./my-cli
+```
+
+如果 `~/code/dev-templates` 已经存在，跳过 clone，直接执行 Copier 命令。Windows PowerShell 原生环境：
+
+```powershell
+uv tool install copier
+Set-Location "$HOME\code"
+git clone https://github.com/asher-tian/dev-templates.git
+copier copy ./dev-templates/python-cli ./my-cli
+```
+
+已有 `$HOME\code\dev-templates` 时同样跳过 clone。模板及使用说明见 [dev-templates](https://github.com/asher-tian/dev-templates)。WSL2 开发使用 WSL2 内部的 `~/code`。
+
+Copier 官方资料：[文档](https://copier.readthedocs.io/) · [GitHub](https://github.com/copier-org/copier)。
+
+## 10. 开发原则
+
+- 项目语言版本由项目配置决定，不在初始化脚本里安装所有 Python、Node.js、Go 版本。
+- 优先使用 Dev Containers 固定复杂项目的 Linux 开发环境；简单的一次性脚本不强制容器化。
+- Redis、数据库等依赖由项目的 Docker Compose 管理，除非确实需要共享服务。
+- 微信开发者工具按需安装；它需要宿主机 GUI，不放进开发容器。

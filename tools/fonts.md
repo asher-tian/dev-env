@@ -13,15 +13,11 @@
 
 ## 安装
 
+在 `dev-env` 仓库根目录执行对应脚本。
+
 ### macOS
 
 安装 [Homebrew](https://brew.sh/) 后运行：
-
-```bash
-brew install --cask font-maple-mono-nf-cn
-```
-
-也可以运行本仓库脚本：
 
 ```bash
 bash tools/install-font-macos.sh

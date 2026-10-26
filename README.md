@@ -149,4 +149,3 @@ dev-env/
 
 新增教程放入对应的 `docs/` 主题目录；新增脚本放入对应系统的 `scripts/` 并更新脚本清单；可复用的默认配置放入 `configs/`。
 
-旧版 `bootstrap/`、`git-config/`、`tools/` 已整合到上述目录，旧命令请按脚本清单更新。

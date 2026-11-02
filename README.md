@@ -56,7 +56,7 @@ git clone https://github.com/asher-tian/dev-env.git
 Set-ExecutionPolicy -Scope Process Bypass
 Set-Location "$HOME\code\dev-env"
 
-# 安装 Git、mise、uv、VS Code、Docker Desktop、Windows Terminal，并在当前 PowerShell profile 启用 mise
+# 安装 Git、mise、uv、VS Code、Docker Desktop、Windows Terminal；PowerShell 7 启用 mise，5.1 配置 shims
 .\scripts\windows\setup.ps1
 ```
 
@@ -86,7 +86,7 @@ Set-Location "$HOME\code\dev-env"
 .\scripts\windows\setup-prompt.ps1
 ```
 
-以上 Windows 脚本用于原生 PowerShell 环境。WSL2 暂无自动初始化脚本，按 [WSL2 指南](docs/development/windows-wsl-devcontainers.md)手动配置。
+Windows 脚本最低兼容 Windows PowerShell 5.1，`.ps1` 文件使用 UTF-8 with BOM。PowerShell 7 使用 mise Activation；Windows PowerShell 5.1 使用 shims（不支持注入 `mise.toml` 中的环境变量，完整激活建议使用 PowerShell 7）。以上脚本用于原生 PowerShell 环境。WSL2 暂无自动初始化脚本，按 [WSL2 指南](docs/development/windows-wsl-devcontainers.md)手动配置。
 
 ## 还需手动完成，然后验收
 

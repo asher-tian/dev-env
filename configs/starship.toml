@@ -1,6 +1,7 @@
 # Catppuccin Mocha - Starship
 add_newline = false
 command_timeout = 1000
+palette = "catppuccin_mocha"
 format = "$directory$git_branch$git_status$cmd_duration$line_break$character"
 
 [palettes.catppuccin_mocha]

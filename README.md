@@ -72,7 +72,7 @@ Set-Location "$HOME\code\dev-env"
 # 安装 Maple Mono NF CN 字体；需先手动安装 Scoop：https://scoop.sh/
 .\scripts\windows\install-font.ps1
 
-# 安装或更新 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展
+# 安装或更新统一清单中的 VS Code 扩展（含 Catppuccin、Vue、Go、Python、Docker、Dev Containers、GitHub Copilot、Claude Code）
 .\scripts\windows\setup-vscode.ps1
 ```
 

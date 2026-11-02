@@ -1,9 +1,7 @@
 {
   // Merge these properties into Windows Terminal settings.json.
   // This is a fragment, not a complete settings.json file.
-  // Quake Mode is a single window; use panes for multiple shells.
   "launchMode": "maximized",
-  "startOnUserLogin": true,
   "initialCols": 160,
   "initialRows": 40,
   "schemes": [
@@ -62,10 +60,6 @@
     }
   },
   "keybindings": [
-    {
-      "id": "Terminal.QuakeMode",
-      "keys": "ctrl+space"
-    },
     {
       "id": "Terminal.SplitPaneRight",
       "keys": "ctrl+d"

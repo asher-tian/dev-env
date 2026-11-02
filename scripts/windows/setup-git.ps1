@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     throw "未检测到 Git。请先运行 scripts\windows\setup.ps1，然后重新打开 PowerShell。"

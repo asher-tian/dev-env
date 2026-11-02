@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     throw "未检测到 winget。请先安装/更新 Windows App Installer：https://aka.ms/getwinget"

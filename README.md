@@ -78,7 +78,7 @@ Set-Location "$HOME\code\dev-env"
 
 可选工具按需单独执行：
 
-Windows 的 Starship 请从 [官方 Releases](https://github.com/starship/starship/releases/latest) 下载 `starship-x86_64-pc-windows-msvc.zip`，将 `starship.exe` 放入 `%LOCALAPPDATA%\Programs\starship\`，再运行下方配置脚本。配置脚本不依赖 WinGet。
+Windows 的 Starship 请从 [官方 Releases](https://github.com/starship/starship/releases/latest) 下载 `starship-x86_64-pc-windows-msvc.zip`。可将 `starship.exe` 放入 `%LOCALAPPDATA%\Programs\starship\`；如果已安装在 `C:\Program Files\starship\bin\`，脚本也会自动识别。配置脚本不依赖 WinGet。
 
 ```powershell
 # 安装 Codex 和 Claude Code CLI；安装后需分别启动并登录

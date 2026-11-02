@@ -33,7 +33,7 @@ Starship 默认读取：
 .\scripts\windows\setup-prompt.ps1
 ```
 
-脚本会将安装目录加入用户 PATH、复制配置到 `$HOME\.config\starship.toml`，并在当前 PowerShell Profile 中添加初始化命令。脚本不下载二进制文件，也不调用 WinGet。
+脚本优先检测 PATH 中已有的 Starship，其次检测 `C:\Program Files\starship\bin\starship.exe` 和 `%LOCALAPPDATA%\Programs\starship\starship.exe`。检测到后会将安装目录加入用户 PATH，再复制配置到 `$HOME\.config\starship.toml` 并配置 PowerShell Profile。脚本不下载二进制文件，也不调用 WinGet。
 
 ### macOS
 
@@ -119,6 +119,6 @@ Set-PSReadLineOption -Colors @{
 ## 常见问题
 
 - 修改配置后重新打开终端，或重新初始化当前 Shell。
-- Windows 如果提示找不到 `starship`，确认 `%LOCALAPPDATA%\Programs\starship` 已加入用户 PATH，并重新打开终端。
+- Windows 如果提示找不到 `starship`，运行 `Get-Command starship` 检查 PATH；重新运行 `setup-prompt.ps1` 会自动检测常见安装路径并修复用户 PATH。
 - 如果已有 Oh My Zsh、Powerlevel10k 或其他自定义 Prompt，避免同时启用多个提示符框架。
 - 仓库配置更新后，使用 `-ForceConfig`（Windows）或 `--force`（macOS）同步；默认模式不会覆盖个人修改。

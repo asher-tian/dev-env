@@ -112,11 +112,12 @@ if ($profileContent -match $guardedPattern) {
     Write-Host "PowerShell Profile 已配置 Starship。"
 } elseif ($profileContent -match $plainPattern) {
     $profileContent = [regex]::Replace($profileContent, $plainPattern, $initBlock.TrimEnd(), 1)
-    Set-Content -LiteralPath $PROFILE -Value $profileContent -Encoding utf8NoBOM
+    [System.IO.File]::WriteAllText($PROFILE, $profileContent, [System.Text.UTF8Encoding]::new($true))
     Write-Host "已将旧版 Starship 初始化命令改为安全检查形式。"
 } elseif ($profileContent -notmatch 'starship init powershell') {
     $newline = [Environment]::NewLine
-    Add-Content -LiteralPath $PROFILE -Value ($newline + "# Starship prompt" + $newline + $initBlock.TrimEnd())
+    $profileContent = [string]$profileContent + $newline + "# Starship prompt" + $newline + $initBlock.TrimEnd()
+    [System.IO.File]::WriteAllText($PROFILE, $profileContent, [System.Text.UTF8Encoding]::new($true))
     Write-Host "已将 Starship 初始化配置写入：$PROFILE"
 } else {
     Write-Host "检测到现有 Starship 初始化配置，未重复添加。"

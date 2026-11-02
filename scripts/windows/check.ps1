@@ -35,7 +35,19 @@ Check-Command "Claude Code" "claude"
 
 Write-Host "`n==> 配置"
 $profileContent = if (Test-Path $PROFILE) { Get-Content $PROFILE -Raw } else { "" }
-if ($profileContent.Contains("mise activate pwsh")) { Ok "PowerShell：已配置 mise" } else { Warn "PowerShell：未配置 mise" }
+$miseShims = if ([string]::IsNullOrWhiteSpace($env:MISE_DATA_DIR)) {
+    Join-Path $env:LOCALAPPDATA "mise\\shims"
+} else {
+    Join-Path $env:MISE_DATA_DIR "shims"
+}
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$miseShimsConfigured = (($env:Path -split ";") -contains $miseShims) -or
+    (($userPath -split ";") -contains $miseShims)
+if ($profileContent.Contains("mise activate pwsh") -or $miseShimsConfigured) {
+    Ok "PowerShell：已配置 mise（Activation 或 shims）"
+} else {
+    Warn "PowerShell：未配置 mise Activation 或 shims"
+}
 if ($profileContent.Contains("starship init powershell")) { Ok "PowerShell：已配置 Starship" } else { Warn "PowerShell：未配置 Starship（可选）" }
 
 if (Test-Path (Join-Path $HOME ".config/starship.toml")) {

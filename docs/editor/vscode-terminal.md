@@ -16,7 +16,18 @@
 
 ## 1. 安装常用 VS Code 扩展
 
-在仓库根目录执行对应脚本。
+扩展清单统一维护在 `configs/vscode/extensions.txt`，Windows 和 macOS 安装脚本都读取这份清单，不再分别维护插件 ID。清单包含：
+
+| 类别 | 扩展 |
+| --- | --- |
+| 主题 | Catppuccin |
+| 前端 | Vue - Official |
+| 后端 | Go |
+| Python | Python、Pylance、Ruff |
+| 容器 | Docker、Dev Containers |
+| AI Coding | GitHub Copilot、Claude Code |
+
+在仓库根目录执行对应脚本，安装或更新清单中的扩展。
 
 macOS：
 
@@ -27,10 +38,12 @@ bash scripts/macos/setup-vscode.sh
 Windows PowerShell：
 
 ```powershell
-.\scripts\windows\setup-vscode.ps1
+.\\scripts\\windows\\setup-vscode.ps1
 ```
 
-脚本安装 Catppuccin 主题，以及 Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展。微信小程序项目继续使用微信开发者工具；如果项目需要专用 VS Code 扩展，再按需添加。
+脚本会继续处理其他扩展，并在结束时汇总安装失败项；网络恢复后重新运行即可重试。GitHub Copilot 和 Claude Code 需要分别完成账号登录。Copilot Chat 会随 GitHub Copilot 扩展安装，无需重复列入清单。
+
+微信小程序项目继续使用微信开发者工具；如果某个项目确实需要额外的 VS Code 扩展，再按项目需求安装，不将临时或项目专用扩展加入全局基础清单。
 
 如果提示找不到 `code` 命令：
 - macOS：在 VS Code 命令面板运行 **Shell Command: Install 'code' command in PATH**，再重新打开终端。

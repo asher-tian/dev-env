@@ -28,7 +28,7 @@ bash scripts/macos/setup-git.sh
 # 安装 Maple Mono NF CN 字体
 bash scripts/macos/install-font.sh
 
-# 安装或更新 Catppuccin、Vue、Go、Python、Pylance、Ruff、Docker、Dev Containers 扩展
+# 安装或更新 dev-env 统一清单中的 VS Code 扩展（Catppuccin、Vue、Go、Python、Docker、Dev Containers、GitHub Copilot、Claude Code）
 bash scripts/macos/setup-vscode.sh
 ```
 

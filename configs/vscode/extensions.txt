@@ -1,0 +1,12 @@
+# VS Code extensions managed by dev-env.
+# Keep this list platform-neutral; setup-vscode scripts consume it.
+Catppuccin.catppuccin-vsc
+Vue.volar
+golang.go
+ms-python.python
+ms-python.vscode-pylance
+charliermarsh.ruff
+ms-azuretools.vscode-docker
+ms-vscode-remote.remote-containers
+GitHub.copilot
+Anthropic.claude-code

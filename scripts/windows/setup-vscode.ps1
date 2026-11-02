@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 if (-not (Get-Command code -ErrorAction SilentlyContinue)) {
     throw "未检测到 VS Code 的 code 命令。请重新打开终端；如果仍不可用，请检查 VS Code PATH 安装选项。"

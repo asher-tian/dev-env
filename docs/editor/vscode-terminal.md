@@ -38,7 +38,7 @@ bash scripts/macos/setup-vscode.sh
 Windows PowerShell：
 
 ```powershell
-.\\scripts\\windows\\setup-vscode.ps1
+.\scripts\windows\setup-vscode.ps1
 ```
 
 脚本会继续处理其他扩展，并在结束时汇总安装失败项；网络恢复后重新运行即可重试。GitHub Copilot 和 Claude Code 需要分别完成账号登录。Copilot Chat 会随 GitHub Copilot 扩展安装，无需重复列入清单。

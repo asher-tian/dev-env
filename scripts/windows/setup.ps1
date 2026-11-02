@@ -20,7 +20,7 @@ foreach ($package in $packages) {
         Write-Host "`n==> 检查/安装 $($package.Name)"
         # Avoid "winget list" here: it may block while refreshing or querying sources.
         # "winget install" detects an existing package and reports that no install is needed.
-        winget install --id $package.Id --exact --accept-package-agreements --accept-source-agreements --disable-interactivity
+        winget.exe install --id $package.Id --exact --accept-package-agreements --accept-source-agreements
         if ($LASTEXITCODE -ne 0) {
             $failedPackages += $package.Name
             Write-Warning "安装失败：$($package.Name)（退出码 $LASTEXITCODE），继续安装后续工具。"

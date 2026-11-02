@@ -62,8 +62,16 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
     if (Test-Path $PROFILE) {
         $profileLines = @(Get-Content $PROFILE)
         $safeProfileLines = @($profileLines | Where-Object {
-            $_ -ne "# mise: activate project-specific tool versions" -and
-            $_ -notmatch '^\\s*\\(&mise activate pwsh\\)\\s*\\|\\s*Out-String\\s*\\|\\s*Invoke-Expression\\s*
+            $_ -notmatch 'mise activate pwsh' -and
+            $_ -ne '# mise: activate project-specific tool versions'
+        })
+        if ($safeProfileLines.Count -ne $profileLines.Count) {
+            Set-Content -Path $PROFILE -Value $safeProfileLines -Encoding UTF8
+            Write-Host "已从 PowerShell 5.1 profile 移除旧版 mise Activation 配置。"
+        }
+    }
+
+    $miseDataDir = if ([string]::IsNullOrWhiteSpace($env:MISE_DATA_DIR)) {
         Join-Path $env:LOCALAPPDATA "mise"
     } else {
         $env:MISE_DATA_DIR
@@ -89,6 +97,7 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
     }
     Write-Host "当前使用 Windows PowerShell 5.1：通过 shims 管理工具版本。"
     Write-Host "注意：shims 不提供 mise.toml 的环境变量注入；需要完整激活时请使用 PowerShell 7。"
+}
 }
 
 if ($failedPackages.Count -gt 0) {

@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     throw "未检测到 Scoop。请先按官方说明安装：https://scoop.sh/ ，然后重新打开 PowerShell。"

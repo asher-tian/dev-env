@@ -36,21 +36,53 @@ foreach ($package in $packages) {
     }
 }
 
-# 在 PowerShell 启动时激活 mise。
-$profileDir = Split-Path -Parent $PROFILE
-if (-not (Test-Path $profileDir)) {
-    New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
-}
-if (-not (Test-Path $PROFILE)) {
-    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
-}
-$activation = '(& mise activate pwsh) | Out-String | Invoke-Expression'
-$profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
-if ($profileContent -notmatch [regex]::Escape('mise activate pwsh')) {
-    Add-Content -Path $PROFILE -Value "`n# mise: activate project-specific tool versions`n$activation"
-    Write-Host "已将 mise 初始化配置写入：$PROFILE"
+# Configure mise for the current PowerShell edition.
+# PowerShell 7 supports full activation. Windows PowerShell 5.1 uses shims
+# because the pwsh activation hook depends on APIs unavailable in 5.1.
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    $profileDir = Split-Path -Parent $PROFILE
+    if (-not (Test-Path $profileDir)) {
+        New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
+    }
+    if (-not (Test-Path $PROFILE)) {
+        New-Item -ItemType File -Path $PROFILE -Force | Out-Null
+    }
+
+    $activation = '(&mise activate pwsh) | Out-String | Invoke-Expression'
+    $profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
+    if ($profileContent -notmatch [regex]::Escape($activation)) {
+        Add-Content -Path $PROFILE -Value "`n# mise: activate project-specific tool versions`n$activation"
+        Write-Host "已将 mise 初始化配置写入：$PROFILE"
+    } else {
+        Write-Host "已存在 mise PowerShell 初始化配置"
+    }
 } else {
-    Write-Host "已存在 mise PowerShell 初始化配置"
+    $miseDataDir = if ([string]::IsNullOrWhiteSpace($env:MISE_DATA_DIR)) {
+        Join-Path $env:LOCALAPPDATA "mise"
+    } else {
+        $env:MISE_DATA_DIR
+    }
+    $miseShims = Join-Path $miseDataDir "shims"
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $userPathEntries = @($userPath -split ";" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+
+    if ($userPathEntries -notcontains $miseShims) {
+        $newUserPath = if ([string]::IsNullOrWhiteSpace($userPath)) {
+            $miseShims
+        } else {
+            "$miseShims;$userPath"
+        }
+        [Environment]::SetEnvironmentVariable("Path", $newUserPath, "User")
+        Write-Host "已将 mise shims 加入用户 PATH：$miseShims"
+    } else {
+        Write-Host "mise shims 已存在于用户 PATH"
+    }
+
+    if (($env:Path -split ";") -notcontains $miseShims) {
+        $env:Path = "$miseShims;$env:Path"
+    }
+    Write-Host "当前使用 Windows PowerShell 5.1：通过 shims 管理工具版本。"
+    Write-Host "注意：shims 不提供 mise.toml 的环境变量注入；需要完整激活时请使用 PowerShell 7。"
 }
 
 if ($failedPackages.Count -gt 0) {

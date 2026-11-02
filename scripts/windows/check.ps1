@@ -36,7 +36,7 @@ Check-Command "Claude Code" "claude"
 Write-Host "`n==> 配置"
 $profileContent = if (Test-Path $PROFILE) { Get-Content $PROFILE -Raw } else { "" }
 $miseShims = if ([string]::IsNullOrWhiteSpace($env:MISE_DATA_DIR)) {
-    Join-Path $env:LOCALAPPDATA "mise\\shims"
+    Join-Path (Join-Path $env:LOCALAPPDATA "mise") "shims"
 } else {
     Join-Path $env:MISE_DATA_DIR "shims"
 }

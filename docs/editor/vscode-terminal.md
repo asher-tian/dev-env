@@ -134,14 +134,35 @@ Windows PowerShell：
 1. 打开 Windows Terminal → Settings → Open JSON file。
 2. 将片段中的 `schemes` 数组内容合并到原文件的 `schemes` 数组。
 3. 将 `themes` 数组内容合并到原文件的 `themes` 数组。
-4. 合并顶层的 `launchMode`、`initialCols`、`initialRows`。
-5. 将 `profiles.defaults` 中的设置合并到原文件的 `profiles.defaults`，不要覆盖其他 Profile。
+4. 将 `profiles.defaults` 中的设置合并到原文件的 `profiles.defaults`。
+5. 合并根节点的 `launchMode`、`startOnUserLogin`、`initialCols`、`initialRows)。
+6. 将 `keybindings` 数组中的项目合并到原文件的 `keybindings` 数组；如果某个快捷键已存在，先删除旧绑定，避免冲突。
 
-默认参数：Catppuccin Mocha、Maple Mono NF CN、14 号字体、14 内边距、140 列 × 40 行。若希望窗口启动时最大化，可将 `launchMode` 改为 `maximized`；此时初始列数和行数不再决定最大化后的尺寸。
+默认参数：Catppuccin Mocha、Maple Mono NF CN、14 号字体、14 内边距、160 列 × 40 行、最大化启动，并在 Windows 登录时启动 Windows Terminal。最大化启动时，初始列数和行数不会决定最终窗口尺寸。
+
+#### Quake Mode 与快捷键
+
+本仓库默认采用一个 Quake 窗口 + 多个分屏的方式，不创建多个独立 Quake 窗口：
+
+| 快捷键 | 动作 | 说明 |
+| --- | --- | --- |
+| `Ctrl + Space` | Quake Mode | 显示 / 隐藏 Quake 窗口 |
+| `Ctrl + D` | Split Pane Right | 在当前分屏右侧创建一个新分屏 |
+| `Ctrl + W` | Close Pane | 关闭当前焦点分屏；若没有分屏，则关闭当前标签页 |
+| `Ctrl + C` | Copy to Clipboard | 复制选中文本；保留该快捷键绑定 |
+| `Ctrl + V` | Paste from Clipboard | 粘贴剪贴板内容 |
+
+使用说明：
+
+- 第一次使用时，先启动一次 Windows Terminal，再按 `Ctrl + Space` 进入 Quake Mode。启用 `startOnUserLogin` 后，Windows Terminal 会在用户登录时启动，之后可直接使用快捷键。
+- Quake Mode 同一时间只有一个 Quake 窗口；需要多个 Shell 时，在该窗口内用 `Ctrl + D` 创建左右分屏。
+- `Ctrl + W` 绑定的是 `Terminal.ClosePane`，不是 `Terminal.CloseTab`。有多个分屏时只关闭当前焦点分屏；没有分屏时关闭当前标签页；如果这也是最后一个标签页，则会关闭窗口。
+- `Ctrl + C` 绑定复制动作。需要向当前 Shell 发送中断信号时，可使用终端的中断快捷键或按需调整复制绑定。
+- 原生 Quake 窗口由 Windows Terminal 管理，通常显示在屏幕上半部分；原生模式不支持自定义 Quake 窗口高度。它适合快速呼出/隐藏，不等同于 iTerm2 的底部下拉位置。
 
 官方主题：[Catppuccin Windows Terminal](https://github.com/catppuccin/windows-terminal)。仓库配置片段基于其 Mocha 色板和 UI 主题。
 
-Windows Terminal 官方配置：[外观设置](https://learn.microsoft.com/windows/terminal/customize-settings/profile-appearance) · [配色方案](https://learn.microsoft.com/windows/terminal/customize-settings/color-schemes)。
+Windows Terminal 官方配置：[启动设置](https://learn.microsoft.com/windows/terminal/customize-settings/startup) · [快捷键与动作](https://learn.microsoft.com/windows/terminal/customize-settings/actions) · [外观设置](https://learn.microsoft.com/windows/terminal/customize-settings/profile-appearance) · [配色方案](https://learn.microsoft.com/windows/terminal/customize-settings/color-schemes)。
 
 ## 6. 主题统一约定
 

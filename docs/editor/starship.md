@@ -21,11 +21,11 @@ Starship 默认读取：
 
 1. 打开 [Starship Releases](https://github.com/starship/starship/releases/latest)。
 2. 下载 `starship-x86_64-pc-windows-msvc.zip`。
-3. 解压后，将 `starship.exe` 放入：
+3. 解压后，将 `starship.exe` 放入以下任一目录：
 
-```text
-%LOCALAPPDATA%\Programs\starship\starship.exe
-```
+- 推荐默认目录：`%LOCALAPPDATA%\Programs\starship\starship.exe`
+- 如果已通过其他方式安装，也支持：`C:\Program Files\starship\bin\starship.exe`
+- 或放在 PATH 已包含的任意目录。
 
 4. 在 `dev-env` 仓库根目录运行：
 

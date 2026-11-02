@@ -1,8 +1,10 @@
 {
   // Merge these properties into Windows Terminal settings.json.
   // This is a fragment, not a complete settings.json file.
-  "launchMode": "default",
-  "initialCols": 140,
+  // Quake Mode is a single window; use panes for multiple shells.
+  "launchMode": "maximized",
+  "startOnUserLogin": true,
+  "initialCols": 160,
   "initialRows": 40,
   "schemes": [
     {
@@ -58,5 +60,27 @@
       "cursorShape": "bar",
       "antialiasingMode": "cleartype"
     }
-  }
+  },
+  "keybindings": [
+    {
+      "id": "Terminal.QuakeMode",
+      "keys": "ctrl+space"
+    },
+    {
+      "id": "Terminal.SplitPaneRight",
+      "keys": "ctrl+d"
+    },
+    {
+      "id": "Terminal.ClosePane",
+      "keys": "ctrl+w"
+    },
+    {
+      "id": "Terminal.CopyToClipboard",
+      "keys": "ctrl+c"
+    },
+    {
+      "id": "Terminal.PasteFromClipboard",
+      "keys": "ctrl+v"
+    }
+  ]
 }

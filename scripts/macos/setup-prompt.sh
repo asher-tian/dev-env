@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+FORCE_CONFIG=false
+if [[ "$#" -gt 0 && "$1" == "--force" ]]; then
+  FORCE_CONFIG=true
+elif [[ "$#" -gt 0 ]]; then
+  echo "用法：bash scripts/macos/setup-prompt.sh [--force]"
+  exit 2
+fi
+
 if ! command -v brew >/dev/null 2>&1; then
   echo "未检测到 Homebrew。请先安装：https://brew.sh/"
   exit 1
@@ -12,16 +20,26 @@ else
   brew install starship
 fi
 
-CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+CONFIG_DIR="$HOME/.config"
+if printenv XDG_CONFIG_HOME >/dev/null 2>&1; then
+  CONFIG_DIR="$(printenv XDG_CONFIG_HOME)"
+fi
 mkdir -p "$CONFIG_DIR"
-if [[ ! -f "$CONFIG_DIR/starship.toml" ]]; then
-  cp "$(dirname "$0")/../../configs/starship.toml" "$CONFIG_DIR/starship.toml"
-  echo "已创建配置：$CONFIG_DIR/starship.toml"
+CONFIG_PATH="$CONFIG_DIR/starship.toml"
+SOURCE_CONFIG="$(dirname "$0")/../../configs/starship.toml"
+
+if [[ ! -f "$CONFIG_PATH" || "$FORCE_CONFIG" == true ]]; then
+  cp "$SOURCE_CONFIG" "$CONFIG_PATH"
+  echo "已同步 Starship 配置：$CONFIG_PATH"
 else
-  echo "检测到已有 Starship 配置，未覆盖：$CONFIG_DIR/starship.toml"
+  echo "检测到已有 Starship 配置，未覆盖：$CONFIG_PATH"
+  echo "如需同步仓库最新配置，请使用：bash scripts/macos/setup-prompt.sh --force"
 fi
 
-ZSHRC="${ZDOTDIR:-$HOME}/.zshrc"
+ZSHRC="$HOME/.zshrc"
+if printenv ZDOTDIR >/dev/null 2>&1; then
+  ZSHRC="$(printenv ZDOTDIR)/.zshrc"
+fi
 touch "$ZSHRC"
 if ! grep -Fq 'starship init zsh' "$ZSHRC"; then
   {

@@ -78,11 +78,13 @@ Set-Location "$HOME\code\dev-env"
 
 可选工具按需单独执行：
 
+Windows 的 Starship 请从 [官方 Releases](https://github.com/starship/starship/releases/latest) 下载 `starship-x86_64-pc-windows-msvc.zip`，将 `starship.exe` 放入 `%LOCALAPPDATA%\Programs\starship\`，再运行下方配置脚本。配置脚本不依赖 WinGet。
+
 ```powershell
 # 安装 Codex 和 Claude Code CLI；安装后需分别启动并登录
 .\scripts\windows\setup-ai-coding.ps1
 
-# 安装 Starship、复制默认配置并写入当前 PowerShell profile；保留已有 Starship 配置
+# 配置 Starship；二进制从 GitHub Releases 手动下载，不依赖 WinGet
 .\scripts\windows\setup-prompt.ps1
 ```
 
@@ -127,7 +129,9 @@ dev-env/
 │   ├── macos/
 │   └── windows/
 ├── configs/                  # 供脚本使用的默认配置
-│   └── starship.toml
+│   ├── starship.toml
+│   ├── windows-terminal/    # Windows Terminal Catppuccin Mocha 配置片段
+│   └── vscode/              # VS Code Catppuccin Mocha 配置片段
 └── .github/workflows/        # 脚本语法检查
 ```
 

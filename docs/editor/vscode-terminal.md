@@ -4,7 +4,8 @@
 
 ## 推荐组合
 
-- VS Code 主题：Catppuccin Mocha（深色）。
+- 统一主题：Catppuccin Mocha（Windows Terminal、VS Code、Starship）。
+- 强调色：Mauve。
 - 字体：Maple Mono NF CN，见[字体指南](fonts.md)。
 - Python：Python 扩展 + Pylance 负责语言服务，Ruff 负责格式化、Lint 和导入排序。
 - macOS 终端：iTerm2。
@@ -37,11 +38,12 @@ Windows PowerShell：
 
 ## 2. VS Code 用户设置
 
-在 VS Code 中打开命令面板，运行 **Preferences: Open User Settings (JSON)**，合并以下配置。不要覆盖已有设置；如果文件里已有同名键，保留一份并合并。
+在 VS Code 中打开命令面板，运行 **Preferences: Open User Settings (JSON)**，合并以下配置。仓库也提供片段 `configs/vscode/settings.fragment.jsonc`。不要覆盖已有设置；如果文件里已有同名键，保留一份并合并。
 
 ```json
 {
   "workbench.colorTheme": "Catppuccin Mocha",
+  "catppuccin.accentColor": "mauve",
   "editor.fontFamily": "'Maple Mono NF CN', 'SF Mono', Menlo, Consolas, monospace",
   "editor.fontSize": 17,
   "editor.fontWeight": "400",
@@ -122,18 +124,30 @@ Windows PowerShell：
 ### macOS / iTerm2
 
 1. 打开 iTerm2 → Settings → Profiles → Text，将字体设为 `Maple Mono NF CN`。
-2. 在 Profiles → Colors 中选择或导入配色。
-3. 建议先使用 iTerm2 内置配色；想与 VS Code 统一时，可从 [Catppuccin 官方主题仓库](https://github.com/catppuccin/iterm)下载对应的 iTerm2 配色。
+2. 在 Profiles → Colors 中导入 [Catppuccin Mocha for iTerm2](https://github.com/catppuccin/iterm) 的配色。
+3. 将该配色设为当前 Profile 的默认颜色方案。
 
 ### Windows / Windows Terminal
 
-1. 打开 Windows Terminal → Settings → Profiles → Defaults → Appearance。
-2. Font face 设为 `Maple Mono NF CN`。
-3. Color scheme 可以先选内置的 `One Half Dark`；如需与 VS Code 一致，再按 [Catppuccin Windows Terminal 主题](https://github.com/catppuccin/windows-terminal)的官方说明导入配色。
+仓库提供可合并的配置片段：`configs/windows-terminal/settings.fragment.jsonc`。它不是完整的 `settings.json`，不要用它覆盖 Windows Terminal 原配置。
+
+1. 打开 Windows Terminal → Settings → Open JSON file。
+2. 将片段中的 `schemes` 数组内容合并到原文件的 `schemes` 数组。
+3. 将 `themes` 数组内容合并到原文件的 `themes` 数组。
+4. 合并顶层的 `launchMode`、`initialCols`、`initialRows`。
+5. 将 `profiles.defaults` 中的设置合并到原文件的 `profiles.defaults`，不要覆盖其他 Profile。
+
+默认参数：Catppuccin Mocha、Maple Mono NF CN、14 号字体、14 内边距、140 列 × 40 行。若希望窗口启动时最大化，可将 `launchMode` 改为 `maximized`；此时初始列数和行数不再决定最大化后的尺寸。
+
+官方主题：[Catppuccin Windows Terminal](https://github.com/catppuccin/windows-terminal)。仓库配置片段基于其 Mocha 色板和 UI 主题。
 
 Windows Terminal 官方配置：[外观设置](https://learn.microsoft.com/windows/terminal/customize-settings/profile-appearance) · [配色方案](https://learn.microsoft.com/windows/terminal/customize-settings/color-schemes)。
 
-## 6. 保持简单
+## 6. 主题统一约定
+
+Windows Terminal、VS Code 和 Starship 统一使用 Catppuccin Mocha；Starship 的颜色定义在 `configs/starship.toml`，Windows Terminal 与 VS Code 的配置片段分别位于 `configs/windows-terminal/` 和 `configs/vscode/`。颜色主题统一，字体大小可根据编辑器和终端的阅读距离分别调整。
+
+## 7. 保持简单
 
 - 先使用同一套字体和深色主题，不急着折腾复杂的 Shell 插件。
 - iTerm2 / Windows Terminal 是宿主机终端；进入 Dev Container 后，VS Code 会使用容器里的 Shell。

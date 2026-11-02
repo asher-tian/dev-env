@@ -1,0 +1,16 @@
+{
+  // Merge these properties into VS Code User settings.json.
+  // This is a fragment, not a complete settings.json file.
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "catppuccin.accentColor": "mauve",
+  "editor.fontFamily": "'Maple Mono NF CN', 'SF Mono', Menlo, Consolas, monospace",
+  "editor.fontSize": 17,
+  "editor.fontWeight": "400",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 28,
+  "editor.letterSpacing": 0.3,
+  "editor.minimap.enabled": false,
+  "terminal.integrated.fontFamily": "'Maple Mono NF CN'",
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.lineHeight": 1.2
+}

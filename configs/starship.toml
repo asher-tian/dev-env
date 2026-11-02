@@ -1,16 +1,46 @@
-# 简洁提示符：目录、Git 分支/状态、长命令耗时和命令状态。
+# Catppuccin Mocha - Starship
 add_newline = false
 command_timeout = 1000
 format = "$directory$git_branch$git_status$cmd_duration$line_break$character"
 
+[palettes.catppuccin_mocha]
+rosewater = "#F5E0DC"
+flamingo = "#F2CDCD"
+pink = "#F5C2E7"
+mauve = "#CBA6F7"
+red = "#F38BA8"
+maroon = "#EBA0AC"
+peach = "#FAB387"
+yellow = "#F9E2AF"
+green = "#A6E3A1"
+teal = "#94E2D5"
+sky = "#89DCEB"
+sapphire = "#74C7EC"
+blue = "#89B4FA"
+lavender = "#B4BEFE"
+text = "#CDD6F4"
+subtext1 = "#BAC2DE"
+subtext0 = "#A6ADC8"
+overlay2 = "#9399B2"
+overlay1 = "#7F849C"
+overlay0 = "#6C7086"
+surface2 = "#585B70"
+surface1 = "#45475A"
+surface0 = "#313244"
+base = "#1E1E2E"
+mantle = "#181825"
+crust = "#11111B"
+
 [directory]
 truncation_length = 3
 truncate_to_repo = true
-style = "bold cyan"
+style = "bold blue"
+format = "[$path]($style) "
 
 [git_branch]
 symbol = " "
 style = "bold mauve"
+format = "on [$symbol$branch]($style) "
 
 [git_status]
 style = "bold yellow"
@@ -19,9 +49,9 @@ format = "([$all_status$ahead_behind]($style) )"
 [cmd_duration]
 min_time = 2000
 format = "[$duration]($style) "
-style = "dimmed"
+style = "overlay1"
 
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
-vimcmd_symbol = "[❮](bold green)"
+vimcmd_symbol = "[❮](bold mauve)"

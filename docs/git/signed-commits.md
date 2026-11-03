@@ -1,20 +1,18 @@
-# GitHub Verified 签名提交（SSH）
+# Git Commit 签名（SSH / GPG）
 
-签名提交可以让 GitHub 在提交记录中显示 **Verified**。这与 SSH 推送认证不同：认证密钥用于证明你可以访问仓库；签名密钥用于验证提交签名。
+Commit Signing 用于验证提交签名，与 SSH 仓库访问认证不同。认证密钥用于证明你可以访问仓库；签名密钥用于验证提交确实由对应私钥持有者签署。
 
-本教程使用 SSH 签名。建议每台开发机器使用自己的密钥。
+本仓库支持两种签名方式。每个 Git 配置作用域（全局或单个仓库）在同一时刻只能选择一种签名格式。
 
-## 1. 准备签名密钥
+## 1. SSH Signing
 
-可以复用已有 SSH 密钥，但需要在 GitHub 中将公钥另外登记为 **Signing Key**。更清晰的做法是单独生成签名密钥：
+适用于支持 SSH Signing 的 Git 平台。
+
+生成独立签名密钥：
 
 ```bash
 ssh-keygen -t ed25519 -C "你的真实邮箱" -f ~/.ssh/id_ed25519_signing
 ```
-
-询问 passphrase 时，可以直接按 Enter 不设置；passphrase 是可选的。无 passphrase 使用方便，但私钥文件泄露后的风险更高。
-
-## 2. 在 GitHub 添加签名公钥
 
 复制公钥：
 
@@ -22,13 +20,9 @@ ssh-keygen -t ed25519 -C "你的真实邮箱" -f ~/.ssh/id_ed25519_signing
 cat ~/.ssh/id_ed25519_signing.pub
 ```
 
-打开 [GitHub SSH and GPG keys](https://github.com/settings/keys)，选择 **New SSH key**，将 **Key type** 选为 **Signing Key**，粘贴公钥并保存。
+在 GitHub 的 [SSH and GPG keys](https://github.com/settings/keys) 中选择 **New SSH key**，将 **Key type** 选为 **Signing Key**。Authentication Key 不能自动代替 Signing Key。
 
-注意：用于登录的 Authentication Key 不会因为已添加就自动成为 Signing Key；若复用同一把密钥，需要另外以 Signing Key 用途登记。
-
-## 3. 配置 Git 自动签名
-
-在该机器执行：
+配置 Git：
 
 ```bash
 git config --global gpg.format ssh
@@ -36,25 +30,67 @@ git config --global user.signingkey ~/.ssh/id_ed25519_signing.pub
 git config --global commit.gpgsign true
 ```
 
-确保提交邮箱与 GitHub 账号中已验证的邮箱一致。你选择使用真实邮箱时，可全局设置：
+## 2. GPG Signing
+
+适用于要求 OpenPGP 签名的 Git 平台。先安装 GnuPG 并生成密钥，确保本机存在可用于签名的私钥。
+
+查看密钥并确定具有签名能力的主密钥 ID：
 
 ```bash
-git config --global user.email "你的真实邮箱"
+gpg --list-secret-keys --keyid-format LONG
 ```
 
-## 4. 验证
+导出公钥：
 
-在任意测试仓库创建一次提交：
+```bash
+gpg --armor --export YOUR_KEY_ID
+```
+
+复制从 `-----BEGIN PGP PUBLIC KEY BLOCK-----` 到 `-----END PGP PUBLIC KEY BLOCK-----` 的全部内容。在 GitHub 的 [New GPG key](https://github.com/settings/gpg/new) 页面添加；内部 Git 平台按其要求登记公钥。
+
+配置 Git：
+
+```bash
+git config --global gpg.format openpgp
+git config --global gpg.program gpg
+git config --global user.signingkey YOUR_KEY_ID
+git config --global commit.gpgsign true
+```
+
+Windows 上若 Git 无法通过 PATH 找到 GPG，可将 `gpg.program` 设置为 `gpg.exe` 的完整路径。
+
+## 3. 验证签名
 
 ```bash
 git commit --allow-empty -m "test: verify signed commits"
 git log -1 --show-signature
 ```
 
-推送到 GitHub 后，打开该提交详情，确认显示 **Verified**。如果没有显示，检查签名公钥是否登记为 Signing Key、邮箱是否已验证，以及本地签名配置是否生效。
+推送后按平台的提交详情确认签名状态。平台必须支持所选签名格式，且对应公钥必须登记为 Signing Key 或 GPG Key。内部平台若明确要求 GPG，必须使用 GPG，不能用 SSH Signing 替代。
 
-## 多台开发机器
+## 4. 按仓库选择不同签名方式
 
-每台机器独立生成签名密钥，并将各自公钥添加到 GitHub 的 **Signing Key**。每台机器都执行第 3 步配置。不要共享或上传私钥。
+全局配置作为默认值，单个仓库可以覆盖：
 
-本教程针对 GitHub 的 Verified 展示。Gitee 对签名提交的支持和界面展示需另行确认，不能假设 GitHub 的 Verified 标记会同步到 Gitee。
+```bash
+# 当前仓库使用 GPG
+git config --local gpg.format openpgp
+git config --local user.signingkey YOUR_GPG_KEY_ID
+
+# 另一个仓库使用 SSH
+git config --local gpg.format ssh
+git config --local user.signingkey ~/.ssh/id_ed25519_signing.pub
+```
+
+排查配置来源：
+
+```bash
+git config --show-origin --show-scope --get-regexp "gpg\\.|user.signingkey|commit.gpgsign"
+```
+
+## 5. 安全与多设备管理
+
+- 只上传公钥；不要上传 SSH 私钥或 GPG 私钥。
+- 不同设备建议使用独立密钥，设备丢失或退役时可以单独撤销。
+- GPG 私钥应妥善备份；不要把私钥备份提交到仓库。
+- SSH Authentication 与 Commit Signing 是不同用途，建议分别使用独立密钥。

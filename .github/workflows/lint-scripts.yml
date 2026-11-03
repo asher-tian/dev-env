@@ -1,16 +1,20 @@
-name: 检查初始化脚本语法
+name: 检查初始化脚本与扩展清单
 
 on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   shell:
-    name: Bash 语法
+    name: Bash 语法与脚本测试
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 检查 shell 脚本
+
+      - name: 检查 shell 脚本语法
         shell: bash
         run: |
           set -euo pipefail
@@ -19,12 +23,89 @@ jobs:
             bash -n "$file"
           done < <(find scripts -type f -name '*.sh' -print0)
 
+      - name: 验证 VS Code 扩展清单
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          manifest="configs/vscode/extensions.txt"
+          test -s "$manifest"
+
+          mapfile -t extensions < <(
+            sed 's/\r$//' "$manifest" |
+              grep -Ev '^[[:space:]]*(#|$)'
+          )
+
+          if [[ "\${#extensions[@]}" -eq 0 ]]; then
+            echo "扩展清单为空"
+            exit 1
+          fi
+
+          for extension in "\${extensions[@]}"; do
+            if [[ ! "$extension" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+              echo "无效的扩展 ID：$extension"
+              exit 1
+            fi
+          done
+
+          duplicates="$(printf '%s\n' "\${extensions[@]}" | sort | uniq -d)"
+          if [[ -n "$duplicates" ]]; then
+            echo "扩展清单存在重复 ID："
+            printf '%s\n' "$duplicates"
+            exit 1
+          fi
+
+          grep -Fq 'configs/vscode/extensions.txt' scripts/macos/setup-vscode.sh
+          grep -Fq 'configs/vscode/extensions.txt' scripts/windows/setup-vscode.ps1
+
+          echo "扩展清单通过：\${#extensions[@]} 个唯一扩展 ID"
+
+      - name: 模拟 macOS 扩展安装脚本
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mock_dir="$(mktemp -d)"
+          trap 'rm -rf "$mock_dir"' EXIT
+          export MOCK_CODE_LOG="$mock_dir/code.log"
+
+          cat > "$mock_dir/code" <<'MOCK'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if [[ "$#" -ne 2 || "$1" != "--install-extension" ]]; then
+            exit 2
+          fi
+          printf '%s\n' "$2" >> "$MOCK_CODE_LOG"
+          if [[ "\${MOCK_CODE_FAIL_EXTENSION:-}" == "$2" ]]; then
+            exit 1
+          fi
+          MOCK
+          chmod +x "$mock_dir/code"
+          export PATH="$mock_dir:$PATH"
+
+          expected="$mock_dir/expected.txt"
+          sed 's/\r$/' configs/vscode/extensions.txt |
+            grep -Ev '^[[:space:]]*(#|$)' > "$expected"
+
+          : > "$MOCK_CODE_LOG"
+          bash scripts/macos/setup-vscode.sh
+          diff -u "$expected" "$MOCK_CODE_LOG"
+
+          # A failed extension must not prevent later extensions from being attempted.
+          : > "$MOCK_CODE_LOG"
+          if MOCK_CODE_FAIL_EXTENSION="golang.go" bash scripts/macos/setup-vscode.sh; then
+            echo "预期某个扩展安装失败，但脚本返回成功"
+            exit 1
+          fi
+          diff -u "$expected" "$MOCK_CODE_LOG"
+
   powershell:
-    name: PowerShell 语法
+    name: PowerShell 语法与脚本测试
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 检查 PowerShell 脚本
+
+      - name: 检查 PowerShell 脚本语法
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -41,3 +122,40 @@ jobs:
             }
             Write-Host "通过：$($file.FullName)"
           }
+
+      - name: 模拟 Windows 扩展安装脚本
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:MOCK_CODE_LOG = Join-Path $env:RUNNER_TEMP 'vscode-extensions.log'
+          Remove-Item -LiteralPath $env:MOCK_CODE_LOG -Force -ErrorAction SilentlyContinue
+
+          function global:code {
+            param(
+              [Parameter(ValueFromRemainingArguments = $true)]
+              [string[]] $CodeArgs
+            )
+
+            if ($CodeArgs.Count -ne 2 -or $CodeArgs[0] -ne '--install-extension') {
+              $global:LASTEXITCODE = 2
+              return
+            }
+
+            Add-Content -LiteralPath $env:MOCK_CODE_LOG -Value $CodeArgs[1] -Encoding utf8
+            $global:LASTEXITCODE = 0
+          }
+
+          & ./scripts/windows/setup-vscode.ps1
+
+          $expected = @(
+            Get-Content -LiteralPath configs/vscode/extensions.txt -Encoding utf8 |
+              ForEach-Object { $_.Trim() } |
+              Where-Object { $_ -and -not $_.StartsWith('#') }
+          )
+          $actual = @(Get-Content -LiteralPath $env:MOCK_CODE_LOG -Encoding utf8)
+
+          if (($expected -join [Environment]::NewLine) -ne ($actual -join [Environment]::NewLine)) {
+            throw "Windows 安装脚本读取的扩展列表与统一清单不一致。"
+          }
+
+          Write-Host "Windows 扩展安装脚本通过：$($actual.Count) 个扩展"

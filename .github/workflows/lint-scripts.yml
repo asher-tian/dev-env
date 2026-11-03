@@ -36,19 +36,19 @@ jobs:
               grep -Ev '^[[:space:]]*(#|$)'
           )
 
-          if [[ "\${#extensions[@]}" -eq 0 ]]; then
+          if [[ "${#extensions[@]}" -eq 0 ]]; then
             echo "扩展清单为空"
             exit 1
           fi
 
-          for extension in "\${extensions[@]}"; do
+          for extension in "${extensions[@]}"; do
             if [[ ! "$extension" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
               echo "无效的扩展 ID：$extension"
               exit 1
             fi
           done
 
-          duplicates="$(printf '%s\n' "\${extensions[@]}" | sort | uniq -d)"
+          duplicates="$(printf '%s\n' "${extensions[@]}" | sort | uniq -d)"
           if [[ -n "$duplicates" ]]; then
             echo "扩展清单存在重复 ID："
             printf '%s\n' "$duplicates"
@@ -58,7 +58,7 @@ jobs:
           grep -Fq 'configs/vscode/extensions.txt' scripts/macos/setup-vscode.sh
           grep -Fq 'configs/vscode/extensions.txt' scripts/windows/setup-vscode.ps1
 
-          echo "扩展清单通过：\${#extensions[@]} 个唯一扩展 ID"
+          echo "扩展清单通过：${#extensions[@]} 个唯一扩展 ID"
 
       - name: 模拟 macOS 扩展安装脚本
         shell: bash
@@ -76,7 +76,7 @@ jobs:
             exit 2
           fi
           printf '%s\n' "$2" >> "$MOCK_CODE_LOG"
-          if [[ "\${MOCK_CODE_FAIL_EXTENSION:-}" == "$2" ]]; then
+          if [[ "${MOCK_CODE_FAIL_EXTENSION:-}" == "$2" ]]; then
             exit 1
           fi
           MOCK

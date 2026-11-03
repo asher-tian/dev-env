@@ -92,7 +92,7 @@ Windows 脚本最低兼容 Windows PowerShell 5.1，`.ps1` 文件使用 UTF-8 wi
 
 ## 还需手动完成，然后验收
 
-- **Git**：将认证公钥添加到 GitHub / Gitee；若启用签名，将签名公钥另加为 GitHub Signing Key。
+- **Git**：将 SSH 认证公钥添加到 GitHub / Gitee；若启用 SSH Signing，将 SSH 签名公钥另加为 GitHub Signing Key；若启用 GPG Signing，将 GPG 公钥添加到 GitHub GPG keys 或内部 Git 平台要求的位置。
 - **编辑器与终端**：按 [VS Code 设置示例](docs/editor/vscode-terminal.md#2-vs-code-用户设置)合并用户设置；Windows Terminal 的 Catppuccin 和分屏快捷键见[终端配置指南](docs/editor/vscode-terminal.md#5-终端主题与字体)。选择字体和主题后，按需登录 Settings Sync。
 - **可选工具**：分别启动 `codex`、`claude` 登录；安装 Starship 后重开终端。
 

@@ -84,7 +84,7 @@ jobs:
           export PATH="$mock_dir:$PATH"
 
           expected="$mock_dir/expected.txt"
-          sed 's/\r$/' configs/vscode/extensions.txt |
+          sed 's/\r$//' configs/vscode/extensions.txt |
             grep -Ev '^[[:space:]]*(#|$)' > "$expected"
 
           : > "$MOCK_CODE_LOG"

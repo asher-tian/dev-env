@@ -19,11 +19,14 @@
 
 ## Git 身份、平台认证与签名
 
-- [ ] 执行 Git 脚本时输入昵称和已在平台验证的提交邮箱，按提示选择密钥 passphrase 和是否启用签名。
+- [ ] 执行 Git 脚本时输入昵称和已在平台验证的提交邮箱，按提示选择密钥 passphrase。
 - [ ] 把 `id_ed25519_git.pub` 登记到需要使用的 GitHub / Gitee 账号，操作见 [SSH 指南](../git/github-ssh.md)。只上传公钥。
-- [ ] 首次 SSH 连接核实主机指纹，再分别执行 `ssh -T git@github.com`、`ssh -T git@gitee.com`，以平台返回的认证消息判断成功。两条命令单独执行。
-- [ ] 若启用签名，将 `id_ed25519_signing.pub` 单独登记为 GitHub Signing Key，并在测试提交后确认 Verified，见[签名指南](../git/signed-commits.md)。
-- [ ] 若需要双平台同步，在平台创建仓库并为具体项目配置远程地址，见[双平台同步](../git/github-gitee-sync.md)。初始化脚本不会创建远程仓库。
+- [ ] 首次 SSH 连接核实主机指纹，再分别执行 `ssh -T git@github.com`、`ssh -T git@gitee.com`。
+- [ ] 在 Git 脚本中选择保持现有签名配置、SSH Signing 或 GPG Signing。
+- [ ] 若选择 SSH Signing，将 `id_ed25519_signing.pub` 单独登记为 GitHub Signing Key。
+- [ ] 若选择 GPG Signing，将导出的 GPG 公钥登记到 GitHub GPG keys 或内部 Git 平台要求的位置。不要上传 GPG 私钥。
+- [ ] 创建测试提交并用 `git log -1 --show-signature` 检查本地签名；平台是否显示 Verified 取决于平台支持和公钥登记，见[签名指南](../git/signed-commits.md)。
+- [ ] 若需要双平台同步，在平台创建仓库并为具体项目配置远程地址，见[双平台同步](../git/github-gitee-sync.md)。
 
 ## AI CLI（可选）
 
@@ -34,19 +37,18 @@
 ## 编辑器、字体与终端
 
 - [ ] 字体安装后重启 VS Code 和终端。
-- [ ] 在 VS Code 打开 **Preferences: Open User Settings (JSON)**，按 [VS Code 与终端指南](../editor/vscode-terminal.md#2-vs-code-用户设置)合并主题、字体及格式化设置；该文档是用户设置示例的统一维护位置。
-- [ ] 在 iTerm2 或 Windows Terminal 的外观设置中选择 `Maple Mono NF CN`，按需设置终端配色。
-- [ ] 如需同步，登录 VS Code Settings Sync 并选择同步项；字体仍需在每台电脑安装，远程扩展另行确认。
-- [ ] 若安装 Starship，重开终端生效；已有 `starship.toml` 会保留，需采用仓库配置时先备份再手动替换，见 [Starship 指南](../editor/starship.md)。
+- [ ] 在 VS Code 打开 **Preferences: Open User Settings (JSON)**，按 [VS Code 与终端指南](../editor/vscode-terminal.md#2-vs-code-用户设置)合并主题、字体及格式化设置。
+- [ ] 在 iTerm2 或 Windows Terminal 的外观设置中选择 `Maple Mono NF CN`。
+- [ ] 如需同步，登录 VS Code Settings Sync 并选择同步项。
+- [ ] 若安装 Starship，重开终端生效；已有 `starship.toml` 会保留。
 
 ## WSL2 与项目环境（按需）
 
-- [ ] Windows 使用 WSL2 时，安装 WSL / Ubuntu、重启并完成用户初始化；在 Docker Desktop 启用 WSL2 后端及目标发行版集成，见 [WSL2 指南](../development/windows-wsl-devcontainers.md)。
+- [ ] Windows 使用 WSL2 时，安装 WSL / Ubuntu 并启用 Docker Desktop WSL2 集成。
 - [ ] 在实际操作 Git 的环境中配置身份和 SSH；WSL2 内按教程手动配置。
-- [ ] 在目标项目中依据 `mise.toml`、`pyproject.toml` 等安装运行时及依赖。本仓库不会安装所有项目的语言版本。
-- [ ] 项目提供 Dev Container 配置后，在 VS Code 执行 **Dev Containers: Reopen in Container**；数据库等服务按项目 Compose 配置启动。
-- [ ] 微信开发者工具等 GUI 软件按需在宿主机另行安装。
+- [ ] 在目标项目中依据 `mise.toml`、`pyproject.toml` 等安装运行时及依赖。
+- [ ] 项目提供 Dev Container 配置后，在 VS Code 执行 **Dev Containers: Reopen in Container**。
 
 ## 完成后
 
-运行[脚本清单](scripts.md)最后一项 `check`，再按[验收指南](validation.md)测试 SSH、容器、字体及实际项目。可选项未启用时，对应 `[检查]` 提示可按实际用途判断。
+运行[脚本清单](scripts.md)最后一项 `check`，再按[验收指南](validation.md)测试 SSH、容器、字体及实际项目。
